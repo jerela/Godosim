@@ -32,11 +32,14 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      # Installs SCons
+      - name: Install SCons
+        run: apt-get install scons
+
+      - name: Run SCons to build Godot Engine
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          cd submodules/godot/
+          scons shared_library=no vsproj=no platform=windows target=editor custom_modules=../godosim-cpp-modules
 
       - name: Create directory for artifact
         run: mkdir -p build-report/
