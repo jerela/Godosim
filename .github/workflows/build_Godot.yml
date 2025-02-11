@@ -21,10 +21,10 @@ jobs:
       - name: download OpenSim installation script
         run: wget https://raw.githubusercontent.com/opensim-org/opensim-core/refs/heads/main/scripts/build/opensim-core-linux-build-script.sh
 
+      - name: enable running of installation script
+        run: sudo chmod +x opensim-core-linux-build-script.sh
       - name: run installation script in Release configuration type, with one thread, and without Moco
-        run: |
-          sudo chmod +x opensim-core-linux-build-script.sh
-          ./opensim-core-linux-build-script.sh -d "Release" -j 1 -s
+        run: ./opensim-core-linux-build-script.sh -d "Release" -j 1 -s
 
       - name: print directory structure
         run: echo ls
