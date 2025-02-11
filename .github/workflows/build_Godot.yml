@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: download OpenSim installation script
-        run: wget https://github.com/opensim-org/opensim-core/blob/main/scripts/build/opensim-core-linux-build-script.sh
+        run: wget https://raw.githubusercontent.com/opensim-org/opensim-core/refs/heads/main/scripts/build/opensim-core-linux-build-script.sh
 
       - name: run installation script in Release configuration type, with one thread, and without Moco
         run: |
