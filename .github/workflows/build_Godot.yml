@@ -34,10 +34,12 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+      - name: Create directory for artifact
+        run: mkdir -p build-report/
       
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: build-report
-          path: build-report/
-          retention-days: 30
+          name: artifact
+          path: build-report/report.txt
+          retention-days: 10
