@@ -1,0 +1,12 @@
+[submodule "submodules/opensim"]
+	path = submodules/opensim
+	url = https://github.com/opensim-org/opensim-core
+[submodule "submodules/godot"]
+	path = submodules/godot
+	url = https://github.com/godotengine/godot
+[submodule "submodules/godosim-project-files"]
+	path = submodules/godosim-project-files
+	url = https://github.com/jerela/godosim-project-files
+[submodule "submodules/godosim-cpp-modules"]
+	path = submodules/godosim-cpp-modules
+	url = https://github.com/jerela/godosim-cpp-modules
