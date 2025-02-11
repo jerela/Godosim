@@ -3,10 +3,10 @@
 name: Build OpenSim and Godot
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-#  push:
-#    branches: [ "main" ]
-  pull_request:
+  push:
     branches: [ "main" ]
+#  pull_request:
+#    branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,7 +24,10 @@ jobs:
       - name: run installation script in Release configuration type, with one thread, and without Moco
         run: |
           sudo chmod +x opensim-core-linux-build-script.sh
-          ./opensim-core-linux-build-script.sh -dRelease -j1 -s
+          ./opensim-core-linux-build-script.sh -d "Release" -j 1 -s
+
+      - name: print directory structure
+        run: echo ls
 
       # download submodules
       - uses: actions/checkout@v4
