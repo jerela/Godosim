@@ -4,7 +4,7 @@
 	branch = opensim_451
 [submodule "submodules/godot"]
 	path = submodules/godot
-	url = https://github.com/godotengine/godot
+	url = https://github.com/godotengine/godot/tree/4.2
 	branch = 4.2
 [submodule "submodules/godosim-project-files"]
 	path = submodules/godosim-project-files
