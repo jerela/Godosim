@@ -3,8 +3,8 @@
 name: Build OpenSim and Godot
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-#  push:
-#    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -21,10 +21,13 @@ jobs:
       - name: download OpenSim installation script
         run: wget https://raw.githubusercontent.com/opensim-org/opensim-core/refs/heads/main/scripts/build/opensim-core-linux-build-script.sh
 
+      - name: enable running of installation script
+        run: sudo chmod +x opensim-core-linux-build-script.sh
       - name: run installation script in Release configuration type, with one thread, and without Moco
-        run: |
-          sudo chmod +x opensim-core-linux-build-script.sh
-          ./opensim-core-linux-build-script.sh -dRelease -j1 -s
+        run: ./opensim-core-linux-build-script.sh -d "Release" -j 1 -c "opensim_451"
+
+      - name: print directory structure
+        run: ls | echo
 
       # download submodules
       - uses: actions/checkout@v4
@@ -39,7 +42,7 @@ jobs:
       - name: Run SCons to build Godot Engine
         run: |
           cd submodules/godot/
-          scons shared_library=no vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules
+          scons shared_library=no vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir="~/opensim-workspace/opensim-core-build"
 
       - name: Create directory for artifact
         run: mkdir -p build-report/
