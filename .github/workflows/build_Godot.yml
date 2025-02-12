@@ -27,9 +27,9 @@ jobs:
         run: ./opensim-core-linux-build-script.sh -d "Release" -j 1 -c "opensim_451"
 
       - name: print directory structure
-        run: ls | echo
+        run: ls
 
-      # download submodules
+      # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
       - uses: actions/checkout@v4
         with:
           submodules: recursive
