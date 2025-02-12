@@ -5,7 +5,7 @@
 [submodule "submodules/godot"]
 	path = submodules/godot
 	url = https://github.com/godotengine/godot
-	branch = 4.3
+	branch = 4.2
 [submodule "submodules/godosim-project-files"]
 	path = submodules/godosim-project-files
 	url = https://github.com/jerela/godosim-project-files
