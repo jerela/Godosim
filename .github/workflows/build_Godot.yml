@@ -23,7 +23,7 @@ jobs:
 
       - name: run OpenSim installation script in Release configuration type, with two threads, and version 4.5
         shell: pwsh
-        run: opensim-core-windows-build-script.ps1 -d Release -j 2 -c opensim_451
+        run: install_opensim.ps1 -d Release -j 2 -c opensim_451
 
       - name: print directory structure
         run: dir
