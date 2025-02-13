@@ -26,7 +26,7 @@ jobs:
 
       - name: run OpenSim installation script in Release configuration type, with two threads, and version 4.5
         shell: pwsh
-        run: "& 'install_opensim.ps1' -d Release -j 2 -c opensim_451"
+        run: "& 'D:/a/Godosim/Godosim/install_opensim.ps1' -d Release -j 2 -c opensim_451"
 
       - name: print directory structure
         run: dir
