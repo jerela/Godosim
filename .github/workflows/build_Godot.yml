@@ -60,9 +60,9 @@ jobs:
     - name: Build dependencies
       if: steps.cache-dependencies.outputs.cache-hit != 'true'
       run: |
-        echo $env:GITHUB_WORKSPACE\\build_deps
-        mkdir $env:GITHUB_WORKSPACE\\build_deps
-        chdir $env:GITHUB_WORKSPACE\\build_deps
+        echo $env:GITHUB_WORKSPACE\\dependencies
+        mkdir $env:GITHUB_WORKSPACE\\dependencies
+        chdir $env:GITHUB_WORKSPACE\\dependencies
         # /W0 disables warnings.
         # https://msdn.microsoft.com/en-us/library/19z1t1wy.aspx
         # TODO: CMake provides /W3, which overrides our /W0
@@ -146,7 +146,7 @@ jobs:
 
 
   
-  Build_Ubuntu:
+  Ubuntu:
     name: Build OpenSim and Godot on Ubuntu
     runs-on: ubuntu-22.04
 
@@ -175,7 +175,7 @@ jobs:
     - name: Run SCons to build Godot Engine
       run: |
         cd submodules/godot/
-        scons shared_library=no vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir="/home/opensim-workspace/opensim-core-build"
+        scons shared_library=no vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir="/home/runner/opensim-core"
 
     - name: Create directory for artifact
       run: mkdir -p build-report/
