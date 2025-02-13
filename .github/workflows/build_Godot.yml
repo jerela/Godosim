@@ -21,9 +21,12 @@ jobs:
       - name: download OpenSim installation script
         run: curl.exe --output install_opensim.ps1 --url https://raw.githubusercontent.com/opensim-org/opensim-core/refs/heads/main/scripts/build/opensim-core-windows-build-script.ps1
 
+      - name: verify the script was downloaded
+        run: dir
+
       - name: run OpenSim installation script in Release configuration type, with two threads, and version 4.5
         shell: pwsh
-        run: install_opensim.ps1 -d Release -j 2 -c opensim_451
+        run: install_opensim -d Release -j 2 -c opensim_451
 
       - name: print directory structure
         run: dir
@@ -53,42 +56,4 @@ jobs:
           retention-days: 10
 
 
-  Build_Ubuntu:
-    name: Build OpenSim and Godot on Ubuntu
-    runs-on: ubuntu-22.04
-
-    steps:
-      - name: download OpenSim installation script
-        run: wget https://raw.githubusercontent.com/opensim-org/opensim-core/refs/heads/main/scripts/build/opensim-core-linux-build-script.sh
-
-      - name: enable running of installation script
-        run: sudo chmod +x opensim-core-linux-build-script.sh
-      - name: run OpenSim installation script in Release configuration type, with two threads, and version 4.5
-        run: ./opensim-core-linux-build-script.sh -d "Release" -j 2 -c "opensim_451"
-
-      - name: print directory structure
-        run: ls
-
-      # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          token: ${{ SECRETS.PAT_submodules }}
-
-      # Installs SCons
-      - name: Install SCons
-        run: python -m pip install scons
-
-      - name: Run SCons to build Godot Engine
-        run: |
-          cd submodules/godot/
-          scons shared_library=no vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir="~/opensim-workspace/opensim-core-build"
-
-      - name: Create directory for artifact
-        run: mkdir -p build-report/
-      
-      - uses: actions/upload-artifact@v4
-        with:
-          name: artifact
-          path: build-report/report.txt
-          retention-days: 10
+  
