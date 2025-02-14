@@ -167,6 +167,10 @@ jobs:
         pwd
         cd ~
         pwd
+        ls
+        cd ..
+        pwd
+        ls
         find Opensim.h
 
     # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
