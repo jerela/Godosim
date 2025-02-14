@@ -163,7 +163,11 @@ jobs:
       run: ls
 
     - name: find OpenSim.h
-      run: find Opensim.h
+      run: |
+        pwd
+        cd ~
+        pwd
+        find Opensim.h
 
     # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
     - uses: actions/checkout@v4
