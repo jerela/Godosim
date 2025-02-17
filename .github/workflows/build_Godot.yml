@@ -164,12 +164,26 @@ jobs:
 
     - name: find OpenSim.h
       run: |
+        echo "first pwd"
         pwd
         cd ~
+        echo "pwd after cd ~"
         pwd
+        echo "ls after cd ~"
         ls
         cd ..
+        echo "pwd after cd ~/.."
         pwd
+        echo "ls after cd ~/.."
+        ls
+        cd ~/opensim-workspace
+        echo "ls after cd ~/opensim-workspace"
+        ls
+        cd ~/opensim-core
+        echo "ls after cd ~/opensim-core"
+        ls
+        cd ~/opensim-core/sdk/include/OpenSim
+        echo "ls after cd ~/opensim-core/sdk/include/OpenSim"
         ls
         find OpenSim.h
 
