@@ -186,6 +186,9 @@ jobs:
         echo "ls after cd ~/opensim-core/sdk/include/OpenSim"
         ls
         find OpenSim.h
+        cd ~/opensim-workspace/opensim-core-build
+        echo "ls after cd ~/opensim-workspace/opensim-core-build"
+        ls
 
     # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
     - uses: actions/checkout@v4
@@ -200,7 +203,7 @@ jobs:
     - name: Run SCons to build Godot Engine
       run: |
         cd submodules/godot/
-        scons shared_library=no vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir="/home/runner/opensim-core"
+        scons shared_library=no vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir="home/runner/opensim-workspace/opensim-core-build"
 
     - name: Create directory for artifact
       run: mkdir -p build-report/
