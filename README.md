@@ -23,20 +23,21 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-If you simply wish to access the sample dataset of generated with Godosim, you can find it on [Zenodo](MISSING).
-
-If you wish to use the pre-built binary applications and generate your own annotated images while customizing the pipeline from the configuration file, you can download the binaries from the Releases of this repository. The binaries do not include skin meshes, textures, or HDRIs.
-- You can download the HDRIs you wish to use as backgrounds from [Poly Haven](https://polyhaven.com/hdris). In the sample dataset, we used 4K resolution.
-- You can download the prepared SMPL skin meshes from the Releases of this repository. They are [SMPL](https://smpl.is.tue.mpg.de/) meshes generated with [SKEL](https://skel.is.tue.mpg.de/). We are not affiliated with either.
-- You can download skin and clothing textures that are compatible with the prepared skin meshes from the [BEDLAM project page](https://bedlam.is.tue.mpg.de/). Note that to download the textures, you need to agree to BEDLAM's license terms. We are not affiliated with BEDLAM.
-  - Instead of SMPL meshes and compatible textures, you can also use your own skin meshes and textures. For instructions on how to do that, see [here](MISSING).
-
-If you wish to build your own customized Godosim application, you will also need the following:
-- [OpenSim 4.5](https://github.com/opensim-org/opensim-core/tree/opensim_451) (included in submodules)
-- [Godot Engine 4.3](https://github.com/godotengine/godot/tree/4.3) (included in submodules)
-- [Custom Godosim C++ module](https://github.com/jerela/godosim-cpp-modules) (included in submodules)
-- [Godosim project files for Godot Engine](https://github.com/jerela/godosim-project-files) (included in submodules)
-- [SCons](https://scons.org/) to create a custom Godot build. For Godot-specific use instructions, see [the official documentation](https://docs.godotengine.org/en/stable/contributing/development/compiling/introduction_to_the_buildsystem.html).
+The prerequisites depend on what you want to use Godosim for. We offer access in three levels of increasing complexity:
+1. If you simply wish to access the sample dataset of generated with Godosim, you can find it on [Zenodo](MISSING).
+2. If you wish to use the pre-built binary applications and generate your own annotated images while customizing the pipeline from the configuration file, you can download the binaries from the Releases of this repository. The binaries do not include skin meshes, textures, or HDRIs.
+   - You can download the HDRIs you wish to use as backgrounds from [Poly Haven](https://polyhaven.com/hdris). In the sample dataset, we used 4K resolution.
+   - You can download the prepared SMPL skin meshes from the Releases of this repository. They are [SMPL](https://smpl.is.tue.mpg.de/) meshes generated with [SKEL](https://skel.is.tue.mpg.de/). We are not affiliated with either.
+   - You can download skin and clothing textures that are compatible with the prepared skin meshes from the [BEDLAM project page](https://bedlam.is.tue.mpg.de/). Note that to download the textures, you need to agree to BEDLAM's license terms. We are not affiliated with BEDLAM.
+     - Instead of SMPL meshes and compatible textures, you can also use your own skin meshes and textures. For instructions on how to do that, see [here](MISSING).
+   - See the instructions on [customizing the image generation process from the configuration file](MISSING).
+3. **ADVANCED USERS**: If you're a right proper wizard and wish to build your own customized Godosim application, you will need the following in addition to the prerequisites of step 2:
+   - [OpenSim 4.5](https://github.com/opensim-org/opensim-core/tree/opensim_451) (included in submodules)
+   - [Godot Engine 4.3](https://github.com/godotengine/godot/tree/4.3) (included in submodules)
+   - [Custom Godosim C++ module](https://github.com/jerela/godosim-cpp-modules) (included in submodules)
+   - [Godosim project files for Godot Engine](https://github.com/jerela/godosim-project-files) (included in submodules)
+   - [SCons](https://scons.org/) to build Godot with custom modules. For Godot-specific use instructions, see [the official documentation](https://docs.godotengine.org/en/stable/contributing/development/compiling/introduction_to_the_buildsystem.html).
+   - See the instructions on [building Godot Engine and customizing Godosim in Godot Editor](MISSING).
 
 
 ### Installing
