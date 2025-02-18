@@ -165,4 +165,4 @@ jobs:
     - name: Run SCons to build Godot Engine
       run: |
         cd submodules/godot/
-        scons shared_library=no vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir="${{ github.workspace }}/opensim-core"
+        scons shared_library=no vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir="home/runner/opensim-core"
