@@ -13,112 +13,71 @@ on:
 
 jobs:
 
-  windows2022:
+  Windows:
     runs-on: windows-2022
     name: Windows 2022
 
-    outputs:
-      version: ${{ steps.configure.outputs.version }}
-
     steps:
-    - uses: actions/checkout@v4
 
-    - name: Install Doxygen
-      # choco install doxygen.portable # <-- too unreliable.
-      run: |
-        (New-Object System.Net.WebClient).DownloadFile("https://github.com/doxygen/doxygen/releases/download/Release_1_12_0/doxygen-1.12.0.windows.x64.bin.zip", "doxygen.zip")
-        7z x $env:GITHUB_WORKSPACE/doxygen.zip -odoxygen
-        echo "$env:GITHUB_WORKSPACE\\doxygen" >> $GITHUB_PATH
-
-    - name: Install Python packages
-      uses: actions/setup-python@v4
+    - name: Cache OpenSim
+      id: cache-opensim-windows
+      uses: actions/cache@v4
       with:
-        python-version: '3.10'
+        path: ${{ github.workspace }}/opensim-core
+        key: ${{ runner.os }}-opensim
 
-    - name: Install numpy
-      #Need numpy to use SWIG numpy typemaps.
-      run: python3 -m pip install numpy==1.25
-
-    - name: Install SWIG
+    - name: Run Windows install script
+      if: steps.cache-opensim-windows.outputs.cache-hit != 'true'
+      shell: pwsh
       run: |
-        choco install swig --version 4.1.1 --yes --limit-output --allow-downgrade
-        swig -swiglib
+        # Install chocolatey
+        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
-    - name: Cache dependencies
-      id: cache-dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/opensim_dependencies_install
-        # Every time a cache is created, it's stored with this key.
-        # In subsequent runs, if the key matches the key of an existing cache,
-        # then the cache is used. We chose for this key to depend on the
-        # operating system and a hash of the hashes of all files in the
-        # dependencies directory (non-recursive).
-        # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/caching-dependencies-to-speed-up-workflows#matching-a-cache-key
-        key: ${{ runner.os }}-dependencies-${{ hashFiles('dependencies/*') }}
-
-    - name: Build dependencies
-      if: steps.cache-dependencies.outputs.cache-hit != 'true'
-      run: |
-        echo $env:GITHUB_WORKSPACE\\dependencies
-        mkdir $env:GITHUB_WORKSPACE\\dependencies
-        chdir $env:GITHUB_WORKSPACE\\dependencies
-        # /W0 disables warnings.
-        # https://msdn.microsoft.com/en-us/library/19z1t1wy.aspx
-        # TODO: CMake provides /W3, which overrides our /W0
-        cmake -E env CXXFLAGS="/W0" cmake $env:GITHUB_WORKSPACE/dependencies -LAH -G"Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX=~/opensim_dependencies_install -DSUPERBUILD_ezc3d=ON -DOPENSIM_WITH_TROPTER=ON -DOPENSIM_WITH_CASADI=ON
-        cmake --build . --config Release -- /maxcpucount:4
-
-    - name: Configure opensim-core
-      id: configure
-      run: |
-        mkdir $env:GITHUB_WORKSPACE\\build
-        chdir $env:GITHUB_WORKSPACE\\build
-        # TODO: Can remove /WX when we use that in CMakeLists.txt.
-        # Set the CXXFLAGS environment variable to turn warnings into errors.
-        # Skip timing test section included by default.
-        cmake -E env CXXFLAGS="/WX -DSKIP_TIMING" cmake $env:GITHUB_WORKSPACE -LAH -G"Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX=~/opensim-core-install -DOPENSIM_DEPENDENCIES_DIR=~/opensim_dependencies_install -DOPENSIM_C3D_PARSER=ezc3d -DOPENSIM_WITH_TROPTER=on -DOPENSIM_WITH_CASADI=on -DBUILD_PYTHON_WRAPPING=on -DBUILD_JAVA_WRAPPING=on -DPython3_ROOT_DIR=C:\hostedtoolcache\windows\Python\3.10.11\x64
-        $env:match = cmake -L . | Select-String -Pattern OPENSIM_QUALIFIED_VERSION
-        $version = $env:match.split('=')[1]
-        echo $version
-        echo "VERSION=$version" >> $GITHUB_ENV
-        echo "version=$version" >> $env:GITHUB_OUTPUT
-
-
-    - name: Build opensim-core
-      # Install now to avoid building bindings twice (TODO: issue when using Visual Studio 2019, is this an issue too in Visual Studio 2022?).
-      run: |
-        chdir $env:GITHUB_WORKSPACE\\build
-        cmake --build . --config Release --target doxygen -- /maxcpucount:4
-        cmake --build . --config Release --target install -- /maxcpucount:4
-
-    - name: Test opensim-core
-      run: |
-        chdir $env:GITHUB_WORKSPACE\\build
-        ctest --parallel 4 --output-on-failure --build-config Release -E Java_*
-
-    - name: Install opensim-core
-      # TODO: This is where we wish to do the installing, but it's done above for now.
-      run: |
-        chdir $env:GITHUB_WORKSPACE\\build
-        chdir $env:GITHUB_WORKSPACE
-        Copy-Item -Path "~/opensim-core-install" -Destination "opensim-core-${{ steps.configure.outputs.version }}" -Recurse
-        7z a "opensim-core-${{ steps.configure.outputs.version }}.zip" "opensim-core-${{ steps.configure.outputs.version }}"
-
-    - name: Test Python bindings
-      run: |
-        echo "PYTHONPATH= $env:USERPROFILE/opensim-core-install/bin">> $GITHUB_ENV
-        # Move to the installed location of the python package.
-        cd ~/opensim-core-install/sdk/python
-        # Run python tests.
-        python -m unittest discover --start-directory opensim/tests --verbose
-
-    - name: Upload opensim-core
-      uses: actions/upload-artifact@v4
-      with:
-        name: opensim-core-${{ steps.configure.outputs.version }}-win2022
-        path: opensim-core-${{ steps.configure.outputs.version }}.zip
-
+        # Install Microsoft Visual Studio 2022 Community
+        choco install visualstudio2022community -y
+        choco install visualstudio2022-workload-nativedesktop -y
+        choco install visualstudio2022buildtools -y
+        
+        # Install cmake 3.23.2
+        choco install cmake.install --version 3.23.3 --installargs '"ADD_CMAKE_TO_PATH=System"' -y
+        
+        # Install git
+        choco install git.install -y
+        
+        # Install dependencies of opensim-core
+        choco install python3  -y
+        choco install jdk8  -y
+        choco install swig  -y --version 4.1.1
+        choco install nsis  -y
+        py -m pip install numpy
+        
+        # Refresh choco environment so we can use tools from terminal now.
+        $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."   
+        Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+        refreshenv
+        
+        # Clone opensim-core
+        chdir ${{ github.workspace }}/opensim-workspace/
+        git clone https://github.com/opensim-org/opensim-core.git ${{ github.workspace }}/opensim-workspace/opensim-core-source
+        chdir ${{ github.workspace }}/opensim-workspace/opensim-core-source
+        git.exe checkout $CORE_BRANCH
+        
+        # Generate dependencies project and build dependencies using superbuild
+        md ${{ github.workspace }}/opensim-workspace/opensim-core-dependencies-build
+        chdir ${{ github.workspace }}/opensim-workspace/opensim-core-dependencies-build
+        cmake ${{ github.workspace }}/opensim-workspace/opensim-core-source/dependencies/ -G"Visual Studio 17 2022" -A x64 -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/opensim-workspace/opensim-core-dependencies-install" -DSUPERBUILD_ezc3d:BOOL=on -DOPENSIM_WITH_CASADI:BOOL=$MOCO -DOPENSIM_WITH_TROPTER:BOOL=$MOCO
+        cmake . -LAH
+        cmake --build . --config $DEBUG_TYPE -- /maxcpucount:$NUM_JOBS
+        
+        # Generate opensim-core build and build it
+        md ${{ github.workspace }}/opensim-workspace/opensim-core-build
+        chdir ${{ github.workspace }}/opensim-workspace/opensim-core-build
+        $env:CXXFLAGS = "/W0"
+        cmake ${{ github.workspace }}/opensim-workspace/opensim-core-source/ -G"Visual Studio 17 2022" -A x64 -DOPENSIM_DEPENDENCIES_DIR="${{ github.workspace }}/opensim-workspace/opensim-core-dependencies-install" -DBUILD_JAVA_WRAPPING=on -DBUILD_PYTHON_WRAPPING=on -DOPENSIM_C3D_PARSER=ezc3d -DBUILD_TESTING=off -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/opensim-core" -DOPENSIM_WITH_CASADI:BOOL=$MOCO -DOPENSIM_WITH_TROPTER:BOOL=$MOCO
+        cmake . -LAH
+        cmake --build . --config $DEBUG_TYPE -- /maxcpucount:$NUM_JOBS
+        cmake --install .
+    
 
     # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
     - uses: actions/checkout@v4
@@ -135,29 +94,26 @@ jobs:
         cd submodules/godot/
         scons shared_library=no vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir="opensim-core-${{ steps.configure.outputs.version }}"
 
-    - name: Create directory for artifact
-      run: mkdir -p build-report/
-      
-    - uses: actions/upload-artifact@v4
-      with:
-        name: artifact
-        path: build-report/report.txt
-        retention-days: 10
-
-
   
   Ubuntu:
-    name: Build OpenSim and Godot on Ubuntu
+    name: Ubuntu
     runs-on: ubuntu-22.04
 
     steps:
-    - name: download OpenSim installation script
-      run: wget https://raw.githubusercontent.com/opensim-org/opensim-core/refs/heads/main/scripts/build/opensim-core-linux-build-script.sh
 
-    - name: enable running of installation script
-      run: sudo chmod +x opensim-core-linux-build-script.sh
-    - name: run OpenSim installation script in Release configuration type, with two threads, and version 4.5
-      run: ./opensim-core-linux-build-script.sh -d "Release" -j 2 -c "opensim_451"
+    - name: Cache OpenSim
+      id: cache-opensim-ubuntu
+      uses: actions/cache@v4
+      with:
+        path: ~/opensim-core
+        key: ${{ runner.os }}-opensim
+
+    - name: Download OpenSim installation script and run it to install OpenSim
+      if: steps.cache-opensim-ubuntu.outputs.cache-hit != 'true'
+      run: |
+        wget https://raw.githubusercontent.com/opensim-org/opensim-core/refs/heads/main/scripts/build/opensim-core-linux-build-script.sh
+        sudo chmod +x opensim-core-linux-build-script.sh
+        ./opensim-core-linux-build-script.sh -d "Release" -j 2 -c "opensim_451"
 
     - name: print directory structure
       run: ls
@@ -209,13 +165,4 @@ jobs:
     - name: Run SCons to build Godot Engine
       run: |
         cd submodules/godot/
-        scons shared_library=no vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir="~/opensim-core"
-
-    - name: Create directory for artifact
-      run: mkdir -p build-report/
-      
-    - uses: actions/upload-artifact@v4
-      with:
-        name: artifact
-        path: build-report/report.txt
-        retention-days: 10
+        scons shared_library=no vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir="${{ github.workspace }}/opensim-core"
