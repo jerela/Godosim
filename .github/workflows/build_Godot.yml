@@ -167,4 +167,4 @@ jobs:
       run: |
         cd submodules/godot/
         pwd
-        scons --debug=findlibs shared_library=no vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
+        scons --debug=findlibs vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
