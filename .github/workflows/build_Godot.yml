@@ -14,6 +14,7 @@ on:
 jobs:
 
   Windows:
+    if: false
     runs-on: windows-2022
     name: Windows 2022
 
@@ -132,9 +133,9 @@ jobs:
         pwd
         echo "--- ls after cd ~/.."
         ls
-        cd ~/opensim-workspace
-        echo "--- ls after cd ~/opensim-workspace"
-        ls
+        #cd ~/opensim-workspace
+        #echo "--- ls after cd ~/opensim-workspace"
+        #ls
         cd ~/opensim-core
         echo "--- ls after cd ~/opensim-core"
         ls
@@ -148,9 +149,9 @@ jobs:
         echo "--- ls after cd ~/opensim-core/sdk/include/OpenSim"
         ls
         find OpenSim.h
-        cd ~/opensim-workspace/opensim-core-build
-        echo "--- ls after cd ~/opensim-workspace/opensim-core-build"
-        ls
+        #cd ~/opensim-workspace/opensim-core-build
+        #echo "--- ls after cd ~/opensim-workspace/opensim-core-build"
+        #ls
 
     # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
     - uses: actions/checkout@v4
