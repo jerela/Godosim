@@ -158,8 +158,8 @@ jobs:
         
     - name: find libraries
       run: |
-        cd ~/opensim-core/sdk/libs
-        echo "--- ls after cd ~/opensim-core/sdk/libs"
+        cd ~/opensim-core/sdk/lib
+        echo "--- ls after cd ~/opensim-core/sdk/lib"
         ls
         cd ~/opensim-core/sdk/spdlog/lib
         echo "--- ls after cd ~/opensim-core/sdk/spdlog/lib"
