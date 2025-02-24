@@ -180,7 +180,7 @@ jobs:
         echo "--- ls after cd ~/opensim-core/sdk/spdlog/include"
         ls
         cd ~/opensim-core/sdk/spdlog
-        echo "--- ls after cd ~/opensim-core/sdk"
+        echo "--- ls after cd ~/opensim-core/sdk/spdlog"
         ls
 
     # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
