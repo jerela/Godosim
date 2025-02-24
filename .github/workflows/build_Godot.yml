@@ -152,8 +152,8 @@ jobs:
         #cd ~/opensim-workspace/opensim-core-build
         #echo "--- ls after cd ~/opensim-workspace/opensim-core-build"
         #ls
-        cd ~/opensim-core/sdk/Simbody/include/SimTKcommon/internal
-        echo "--- ls after cd ~/opensim-core/sdk/Simbody/include/SimTKcommon/internal"
+        cd ~/opensim-core/sdk/Simbody/include
+        echo "--- ls after cd ~/opensim-core/sdk/Simbody/include"
         ls
 
     # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
