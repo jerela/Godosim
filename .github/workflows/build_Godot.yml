@@ -155,6 +155,18 @@ jobs:
         cd ~/opensim-core/sdk/Simbody/include/simbody
         echo "--- ls after cd ~/opensim-core/sdk/Simbody/include/simbody"
         ls
+        
+    - name: find libraries
+      run: |
+        cd ~/opensim-core/sdk/libs
+        echo "--- ls after cd ~/opensim-core/sdk/libs"
+        ls
+        cd ~/opensim-core/sdk/spdlog/lib
+        echo "--- ls after cd ~/opensim-core/sdk/spdlog/lib"
+        ls
+        cd ~/opensim-core/sdk/Simbody/lib
+        echo "--- ls after cd ~/opensim-core/sdk/Simbody/lib"
+        ls
 
     # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
     - uses: actions/checkout@v4
