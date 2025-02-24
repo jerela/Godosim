@@ -164,6 +164,9 @@ jobs:
         cd ~/opensim-core/sdk/spdlog/lib
         echo "--- ls after cd ~/opensim-core/sdk/spdlog/lib"
         ls
+        cd ~/opensim-core/sdk/spdlog/lib/spdlog
+        echo "--- ls after cd ~/opensim-core/sdk/spdlog/lib/spdlog"
+        ls
         cd ~/opensim-core/sdk/Simbody/lib
         echo "--- ls after cd ~/opensim-core/sdk/Simbody/lib"
         ls
