@@ -102,6 +102,9 @@ jobs:
 
     steps:
 
+    - name: Install libopenblas-dev and add it to environment variables, as well as other packages
+      run: sudo apt-get update && sudo apt-get install --yes build-essential libtool autoconf pkg-config gfortran libopenblas-dev liblapack-dev freeglut3-dev libxi-dev libxmu-dev doxygen patchelf
+
     - name: Cache OpenSim
       id: cache-opensim-ubuntu
       uses: actions/cache@v4
