@@ -102,9 +102,11 @@ jobs:
 
     steps:
 
+    # Install packages that are required; without this, building Godot throws an error because libopenblas.so.0 cannot be found. Might be because the OpenSim installation is cached, and while the Opensim install script installs libopenblas-dev, caching the installed OpenSim directory doesn't keep the dependencies. In other words, it's possible that just innstalling libopenblas-dev here is necessary and the other packages are unnecessary, but installing them it very fast so it doesn't meaningfully hurt performance.
     - name: Install libopenblas-dev and add it to environment variables, as well as other packages
       run: sudo apt-get update && sudo apt-get install --yes build-essential libtool autoconf pkg-config gfortran libopenblas-dev liblapack-dev freeglut3-dev libxi-dev libxmu-dev doxygen patchelf
 
+    # Cache OpenSim once it's installed so we don't have to build it again.
     - name: Cache OpenSim
       id: cache-opensim-ubuntu
       uses: actions/cache@v4
@@ -112,79 +114,13 @@ jobs:
         path: ~/opensim-core
         key: ${{ runner.os }}-opensim
 
+    # Run OpenSim installation if we don't have OpenSim cached.
     - name: Download OpenSim installation script and run it to install OpenSim
       if: steps.cache-opensim-ubuntu.outputs.cache-hit != 'true'
       run: |
         wget https://raw.githubusercontent.com/opensim-org/opensim-core/refs/heads/main/scripts/build/opensim-core-linux-build-script.sh
         sudo chmod +x opensim-core-linux-build-script.sh
         ./opensim-core-linux-build-script.sh -d "Release" -j 2 -c "opensim_451"
-
-    - name: print directory structure
-      run: ls
-
-    - name: find OpenSim.h
-      run: |
-        echo "--- first pwd"
-        pwd
-        cd ~
-        echo "--- pwd after cd ~"
-        pwd
-        echo "--- ls after cd ~"
-        ls
-        cd ..
-        echo "--- pwd after cd ~/.."
-        pwd
-        echo "--- ls after cd ~/.."
-        ls
-        #cd ~/opensim-workspace
-        #echo "--- ls after cd ~/opensim-workspace"
-        #ls
-        cd ~/opensim-core
-        echo "--- ls after cd ~/opensim-core"
-        ls
-        cd ~/opensim-core/sdk
-        echo "--- ls after cd ~/opensim-core/sdk"
-        ls
-        cd ~/opensim-core/sdk/include
-        echo "--- ls after cd ~/opensim-core/sdk/include"
-        ls
-        cd ~/opensim-core/sdk/include/OpenSim
-        echo "--- ls after cd ~/opensim-core/sdk/include/OpenSim"
-        ls
-        find OpenSim.h
-        #cd ~/opensim-workspace/opensim-core-build
-        #echo "--- ls after cd ~/opensim-workspace/opensim-core-build"
-        #ls
-        cd ~/opensim-core/sdk/Simbody/include/simbody
-        echo "--- ls after cd ~/opensim-core/sdk/Simbody/include/simbody"
-        ls
-        
-    - name: find libraries
-      run: |
-        cd ~/opensim-core/sdk/lib
-        echo "--- ls after cd ~/opensim-core/sdk/lib"
-        ls
-        cd ~/opensim-core/sdk/spdlog/lib
-        echo "--- ls after cd ~/opensim-core/sdk/spdlog/lib"
-        ls
-        cd ~/opensim-core/sdk/spdlog/lib/spdlog
-        echo "--- ls after cd ~/opensim-core/sdk/spdlog/lib/spdlog"
-        ls
-        cd ~/opensim-core/sdk/Simbody/lib
-        echo "--- ls after cd ~/opensim-core/sdk/Simbody/lib"
-        ls
-
-    - name: find spdlog
-      run: |
-        cd ~/opensim-core/sdk/spdlog/include/spdlog
-        echo "--- ls after cd ~/opensim-core/sdk/spdlog/include/spdlog"
-        ls
-        cd ~/opensim-core/sdk/spdlog/include
-        echo "--- ls after cd ~/opensim-core/sdk/spdlog/include"
-        ls
-        cd ~/opensim-core/sdk/spdlog
-        echo "--- ls after cd ~/opensim-core/sdk/spdlog"
-        ls
 
     # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
     - uses: actions/checkout@v4
@@ -201,3 +137,5 @@ jobs:
         cd submodules/godot/
         pwd
         scons --debug=findlibs vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
+
+    # TODO: Build export templates, export executable binary, and test run it
