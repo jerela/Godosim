@@ -1,0 +1,59 @@
+# This workflow builds OpenSim and Godot to make sure that part is done correctly. It doesn't yet test generating images.
+
+name: Build OpenSim and Godot
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+       types:  [opened, closed, synchronize]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  
+  Ubuntu:
+    name: Ubuntu
+    runs-on: ubuntu-22.04
+
+    steps:
+
+    # Install packages that are required; without this, building Godot throws an error because libopenblas.so.0 cannot be found. Might be because the OpenSim installation is cached, and while the Opensim install script installs libopenblas-dev, caching the installed OpenSim directory doesn't keep the dependencies. In other words, it's possible that just innstalling libopenblas-dev here is necessary and the other packages are unnecessary, but installing them it very fast so it doesn't meaningfully hurt performance.
+    - name: Install libopenblas-dev and add it to environment variables, as well as other packages
+      run: sudo apt-get update && sudo apt-get install --yes build-essential libtool autoconf pkg-config gfortran libopenblas-dev liblapack-dev freeglut3-dev libxi-dev libxmu-dev doxygen patchelf
+
+    # Cache OpenSim once it's installed so we don't have to build it again.
+    - name: Cache OpenSim
+      id: cache-opensim-ubuntu
+      uses: actions/cache@v4
+      with:
+        path: ~/opensim-core
+        key: ${{ runner.os }}-opensim
+
+    # Run OpenSim installation if we don't have OpenSim cached.
+    - name: Download OpenSim installation script and run it to install OpenSim
+      if: steps.cache-opensim-ubuntu.outputs.cache-hit != 'true'
+      run: |
+        wget https://raw.githubusercontent.com/opensim-org/opensim-core/refs/heads/main/scripts/build/opensim-core-linux-build-script.sh
+        sudo chmod +x opensim-core-linux-build-script.sh
+        ./opensim-core-linux-build-script.sh -d "Release" -j 2 -c "opensim_451"
+
+    # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        token: ${{ SECRETS.PAT_submodules }}
+
+    # Installs SCons
+    - name: Install SCons
+      run: python -m pip install scons
+
+    - name: Run SCons to build Godot Engine
+      run: |
+        cd submodules/godot/
+        pwd
+        scons --debug=findlibs vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
+
+    # TODO: Build export templates, export executable binary, and test run it
