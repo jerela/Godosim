@@ -1,10 +1,10 @@
 # Using the configuration file
 
-When running the binary to generate annotated images, many settings are defined in 
+When running the binary to generate annotated images, many settings are defined in the config file. You can control how the image generation process works by changing the settings.
 
 - [Locating the config file](#locating-the-config-file)
-- [Understanding the config file](#how-it-works)
-  * [Descriptions of sections and keys](#descriptions-of-files)
+- [Understanding the config file](#understanding-the-config-file)
+  * [Descriptions of sections and keys](#descriptions-of-sections-and-keys)
 <!-- toc -->
 
 
@@ -20,9 +20,13 @@ If the file is not found, one will be created with default settings. Therefore, 
 The settings in the config file are organized **sections**, **keys**, and **values** in the following format:
 ```
 [section]
-; resolution of the generated images as (width,height)
 key=value
 anotherKey=someValue
+
+[someOtherSection]
+booleanSetting=true
+floating_point=3.14159
+message="Hello, world"
 ```
 
 There must be no whitespaces on either side of the equality *(=)* symbol. Additionally, lines starting with semicolon *(;)* are comments and ignored by the application.
