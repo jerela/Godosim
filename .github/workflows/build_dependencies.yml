@@ -38,7 +38,7 @@ jobs:
       if: steps.cache-opensim-ubuntu.outputs.cache-hit != 'true'
       run: |
         mkdir -p ~/opensim-workspace/opensim-core-source
-        sudo apt-get update && sudo apt-get install -y libopenblas-dev libadolc-dev
+        sudo apt-get update && sudo apt-get install -y libopenblas-dev libadolc-dev autoconf
     
     # Run OpenSim installation if we don't have OpenSim cached.
     - name: Download OpenSim installation script and run it to install OpenSim
@@ -46,7 +46,7 @@ jobs:
       run: |
         wget https://raw.githubusercontent.com/opensim-org/opensim-core/refs/heads/main/scripts/build/opensim-core-linux-build-script.sh
         sudo chmod +x opensim-core-linux-build-script.sh
-        ./opensim-core-linux-build-script.sh -d "Release" -j 1 -c "opensim_451" -s
+        ./opensim-core-linux-build-script.sh -d "Release" -j 1 -c "opensim_451" -s "off"
 
     # If we have OpenSim cached, install packages that are required. Without this, building Godot throws an error because libopenblas.so.0 cannot be found. Might be because the OpenSim installation is cached, and while the Opensim install script installs libopenblas-dev, caching the installed OpenSim directory doesn't keep the dependencies. In other words, it's possible that just innstalling libopenblas-dev here is necessary and the other packages are unnecessary, but installing them it very fast so it doesn't meaningfully hurt performance.
     - name: Install libopenblas-dev and add it to environment variables, as well as other packages
