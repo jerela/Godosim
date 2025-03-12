@@ -38,7 +38,7 @@ jobs:
       if: steps.cache-opensim-ubuntu.outputs.cache-hit != 'true'
       run: |
         mkdir -p ~/opensim-workspace/opensim-core-source
-        sudo apt-get update && sudo apt-get install -y libopenblas-dev adolc libadolc-dev
+        sudo apt-get update && sudo apt-get install -y libopenblas-dev libadolc-dev
     
     # Run OpenSim installation if we don't have OpenSim cached.
     - name: Download OpenSim installation script and run it to install OpenSim
