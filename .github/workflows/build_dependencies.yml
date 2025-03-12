@@ -33,6 +33,7 @@ jobs:
 
     - name: Install SWIG
       run: |
+        NUM_JOBS=1
         mkdir -p ~/opensim-workspace/swig-source || true && cd ~/opensim-workspace/swig-source
         wget -nc -q --show-progress https://github.com/swig/swig/archive/refs/tags/v4.1.1.tar.gz
         tar xzf v4.1.1.tar.gz && cd swig-4.1.1
@@ -50,17 +51,17 @@ jobs:
       run: |
         mkdir -p ~/opensim-workspace/opensim-core-dependencies-build || true
         cd ~/opensim-workspace/opensim-core-dependencies-build
-        cmake ~/opensim-workspace/opensim-core-source/dependencies -DCMAKE_INSTALL_PREFIX=~/opensim-workspace/opensim-core-dependencies-install/ -DSUPERBUILD_ezc3d=on -DOPENSIM_WITH_CASADI=$MOCO
+        cmake ~/opensim-workspace/opensim-core-source/dependencies -DCMAKE_INSTALL_PREFIX=~/opensim-workspace/opensim-core-dependencies-install/ -DSUPERBUILD_ezc3d=on -DOPENSIM_WITH_CASADI=on
         cmake . -LAH
-        cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
+        cmake --build . --config Release -j$NUM_JOBS
 
     - name: Build OpenSim
       run: |
         mkdir -p ~/opensim-workspace/opensim-core-build || true
         cd ~/opensim-workspace/opensim-core-build
-        cmake ~/opensim-workspace/opensim-core-source -G"$GENERATOR" -DOPENSIM_DEPENDENCIES_DIR=~/opensim-workspace/opensim-core-dependencies-install/ -DBUILD_JAVA_WRAPPING=on -DBUILD_PYTHON_WRAPPING=on -DOPENSIM_C3D_PARSER=ezc3d -DBUILD_TESTING=off -DCMAKE_INSTALL_PREFIX=~/opensim-core -DOPENSIM_INSTALL_UNIX_FHS=off -DSWIG_DIR=~/swig/share/swig -DSWIG_EXECUTABLE=~/swig/bin/swig -DOPENSIM_WITH_CASADI=$MOCO
+        cmake ~/opensim-workspace/opensim-core-source -G"$GENERATOR" -DOPENSIM_DEPENDENCIES_DIR=~/opensim-workspace/opensim-core-dependencies-install/ -DBUILD_JAVA_WRAPPING=on -DBUILD_PYTHON_WRAPPING=on -DOPENSIM_C3D_PARSER=ezc3d -DBUILD_TESTING=off -DCMAKE_INSTALL_PREFIX=~/opensim-core -DOPENSIM_INSTALL_UNIX_FHS=off -DSWIG_DIR=~/swig/share/swig -DSWIG_EXECUTABLE=~/swig/bin/swig -DOPENSIM_WITH_CASADI=on
         cmake . -LAH
-        cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
+        cmake --build . --config Release -j$NUM_JOBS
 
     - name: Test OpenSim
       run: |
