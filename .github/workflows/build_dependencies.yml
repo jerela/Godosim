@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - automatic-Godot-build
   pull_request:
     branches:
       - main
@@ -38,14 +39,14 @@ jobs:
       run: |
         wget https://raw.githubusercontent.com/opensim-org/opensim-core/refs/heads/main/scripts/build/opensim-core-linux-build-script.sh
         sudo chmod +x opensim-core-linux-build-script.sh
-        ./opensim-core-linux-build-script.sh -d "Release" -j 2 -c "opensim_451"
+        ./opensim-core-linux-build-script.sh -d "Release" -j 1 -c "opensim_451"
 
     # If we have OpenSim cached, install packages that are required. Without this, building Godot throws an error because libopenblas.so.0 cannot be found. Might be because the OpenSim installation is cached, and while the Opensim install script installs libopenblas-dev, caching the installed OpenSim directory doesn't keep the dependencies. In other words, it's possible that just innstalling libopenblas-dev here is necessary and the other packages are unnecessary, but installing them it very fast so it doesn't meaningfully hurt performance.
     - name: Install libopenblas-dev and add it to environment variables, as well as other packages
       if: steps.cache-opensim-ubuntu.outputs.cache-hit == 'true'
       run: sudo apt-get update && sudo apt-get install --yes build-essential libtool autoconf pkg-config gfortran libopenblas-dev liblapack-dev freeglut3-dev libxi-dev libxmu-dev doxygen patchelf
 
-    # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
+    # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days from its creation
     - uses: actions/checkout@v4
       with:
         submodules: recursive
