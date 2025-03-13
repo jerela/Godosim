@@ -14,7 +14,7 @@ When you first run the binary application, it will search for a config file in (
 - On Windows: *%APPDATA%/Godosim/Config/config.cfg*
 - On Linux: *~/.local/share/Godosim/Config/config.cfg*
 
-If the file is not found, one will be created with default settings. Therefore, you should first run the binary application at least once to create the config file. You can also download the config file [here](LINKMISSING) and place it in the correct location.
+If the file is not found, one will be created with default settings. Therefore, you should first run the binary application at least once to create the config file. You can also download the config file [here](misc/config.cfg) and place it in the correct location.
 
 ## Understanding the config file
 The settings in the config file are organized **sections**, **keys**, and **values** in the following format:
@@ -63,4 +63,4 @@ In the config file, there are the following sections:
 3. If you wish to change the resolution of the generated images, you can do so under **project_settings**.
 4. You probably won't need to look at the other sections.
 
-The names of the keys describe their function, but a commented config file is available [here](MISSINGLINK) for clarity.
+The names of the keys describe their function, but a commented config file is available [here](misc/config.cfg) for clarity.
