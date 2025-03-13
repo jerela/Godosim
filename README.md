@@ -50,6 +50,19 @@ Step by step instructions on how to install this project.
 
 ### Running the program
 
+First, make sure you have done one of the following:
+- build Godot with OpenSim-integrated custom modules, download the Godot project files, and build the binary **OR**
+- simply download the binary for your operating system from [Releases](MISSING)
+
+You are recommended to run the binary through the command line to receive console output that will help you troubleshoot issues that you might encounter. Furthermore, if you wish to access the Godosim demo, you need to run the binary with the command line arguments "--demo".
+
+When you first run the binary, it will generate a config file for you as described [here](docs/CONFIGURATION.md). Edit the paths in the configuration file to match your file system. You will need to download the following files:
+1. skin meshes
+2. textures compatible with the skin meshes
+3. HDRI backgrounds
+4. OpenSim-compatible musculoskeletal model
+5. OpenSim-compatible kinematics file
+
 ## How it works
 
 ### SkeletonTracker and custom C++ modules
