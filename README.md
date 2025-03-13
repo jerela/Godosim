@@ -56,7 +56,7 @@ First, make sure you have done one of the following:
 
 You are recommended to run the binary through the command line to receive console output that will help you troubleshoot issues that you might encounter. Furthermore, if you wish to access the Godosim demo, you need to run the binary with the command line arguments "--demo".
 
-When you first run the binary, it will generate a config file for you as described [here](docs/CONFIGURATION.md). Edit the paths in the configuration file to match your file system. You will need to download the following files:
+When you first run the binary, it will generate a config file for you as described [here](/docs/CONFIGURATION.md). Edit the paths in the configuration file to match your file system. You will need to download the following files:
 1. skin meshes
 2. textures compatible with the skin meshes
 3. HDRI backgrounds
