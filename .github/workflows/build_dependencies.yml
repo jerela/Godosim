@@ -31,29 +31,6 @@ jobs:
     - name: Create directories
       run: mkdir ~/opensim-workspace
 
-    - name: Install CMake 3.23.3
-      run: |
-        mkdir ~/opensim-workspace/cmake-3.23.3-source || true
-        cd ~/opensim-workspace/cmake-3.23.3-source
-        wget -nc -q --show-progress https://github.com/Kitware/CMake/releases/download/v3.23.3/cmake-3.23.3.tar.gz 
-        tar -zxvf cmake-3.23.3.tar.gz
-        cd ~/opensim-workspace/cmake-3.23.3-source/cmake-3.23.3
-        ./bootstrap
-        make -j$NUM_JOBS && sudo make install
-        source ~/.bashrc && cmake --version
-
-    - name: Install Python 3.6.9
-      run: |
-        mkdir ~/opensim-workspace/Python-3.6.9-source || true
-        cd ~/opensim-workspace/Python-3.6.9-source
-        wget -nc -q --show-progress https://www.python.org/ftp/python/3.6.9/Python-3.6.9.tgz
-        tar -xvzf Python-3.6.9.tgz
-        cd ~/opensim-workspace/Python-3.6.9-source/Python-3.6.9
-        ./configure
-        make -j$NUM_JOBS
-        sudo make altinstall
-        sudo /usr/local/bin/pip3.6 install numpy
-
     - name: Install SWIG
       run: |
         NUM_JOBS=1
