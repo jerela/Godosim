@@ -56,7 +56,7 @@ In the config file, there are the following sections:
 - **external_data**: absolute directory paths to where external data (data not included in the binary, such as meshes and 3rd party textures) are
 - **skeletontracker**: settings for controlling the OpenSim musculoskeletal simulations
 - **generate**: settings for controlling the image generation parameters
-- **occlusion-fragmented**: setting for controlling the objects providing visual occlusion in the images, if the *occlusion* key is set to *"fragmented"* under the **generate** section
+- **occlusion-fragmented**: settings for controlling the objects providing visual occlusion in the images, if the *occlusion* key is set to *"fragmented"* under the **generate** section
 
 1. You will need to change the values under **paths** and **external_data** to match your filesystem.
 2. You should read through the keys and values in **generate** to understand how you can modify the image conditions.
