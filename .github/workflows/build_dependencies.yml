@@ -33,7 +33,7 @@ jobs:
 
     - name: Install SWIG
       run: |
-        NUM_JOBS=1
+        NUM_JOBS=2
         mkdir -p ~/opensim-workspace/swig-source || true && cd ~/opensim-workspace/swig-source
         wget -nc -q --show-progress https://github.com/swig/swig/archive/refs/tags/v4.1.1.tar.gz
         tar xzf v4.1.1.tar.gz && cd swig-4.1.1
