@@ -17,6 +17,17 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  NUM_JOBS: 2
+  DEBUG_TYPE: "Release"
+  MOCO: "on"
+  CORE_BRANCH: "opensim_451"
+  GENERATOR: "Unix Makefiles"
 jobs:
   
   Ubuntu:
@@ -33,7 +44,6 @@ jobs:
 
     - name: Install SWIG
       run: |
-        NUM_JOBS=2
         mkdir -p ~/opensim-workspace/swig-source || true && cd ~/opensim-workspace/swig-source
         wget -nc -q --show-progress https://github.com/swig/swig/archive/refs/tags/v4.1.1.tar.gz
         tar xzf v4.1.1.tar.gz && cd swig-4.1.1
@@ -45,23 +55,23 @@ jobs:
         mkdir -p ~/opensim-workspace/opensim-core-source || true
         git -C ~/opensim-workspace/opensim-core-source pull || git clone https://github.com/opensim-org/opensim-core.git ~/opensim-workspace/opensim-core-source
         cd ~/opensim-workspace/opensim-core-source
-        git checkout "opensim_451"
+        git checkout $CORE_BRANCH
 
     - name: Build OpenSim dependencies
       run: |
         mkdir -p ~/opensim-workspace/opensim-core-dependencies-build || true
         cd ~/opensim-workspace/opensim-core-dependencies-build
-        cmake ~/opensim-workspace/opensim-core-source/dependencies -DCMAKE_INSTALL_PREFIX=~/opensim-workspace/opensim-core-dependencies-install/ -DSUPERBUILD_ezc3d=on -DOPENSIM_WITH_CASADI=on
+        cmake ~/opensim-workspace/opensim-core-source/dependencies -DCMAKE_INSTALL_PREFIX=~/opensim-workspace/opensim-core-dependencies-install/ -DSUPERBUILD_ezc3d=on -DOPENSIM_WITH_CASADI=$MOCO
         cmake . -LAH
-        cmake --build . --config Release -j$NUM_JOBS
+        cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
 
     - name: Build OpenSim
       run: |
         mkdir -p ~/opensim-workspace/opensim-core-build || true
         cd ~/opensim-workspace/opensim-core-build
-        cmake ~/opensim-workspace/opensim-core-source -G"Unix Makefiles" -DOPENSIM_DEPENDENCIES_DIR=~/opensim-workspace/opensim-core-dependencies-install/ -DBUILD_JAVA_WRAPPING=on -DBUILD_PYTHON_WRAPPING=on -DOPENSIM_C3D_PARSER=ezc3d -DBUILD_TESTING=off -DCMAKE_INSTALL_PREFIX=~/opensim-core -DOPENSIM_INSTALL_UNIX_FHS=off -DSWIG_DIR=~/swig/share/swig -DSWIG_EXECUTABLE=~/swig/bin/swig -DOPENSIM_WITH_CASADI=on
+        cmake ~/opensim-workspace/opensim-core-source -G$GENERATOR -DOPENSIM_DEPENDENCIES_DIR=~/opensim-workspace/opensim-core-dependencies-install/ -DBUILD_JAVA_WRAPPING=on -DBUILD_PYTHON_WRAPPING=on -DOPENSIM_C3D_PARSER=ezc3d -DBUILD_TESTING=off -DCMAKE_INSTALL_PREFIX=~/opensim-core -DOPENSIM_INSTALL_UNIX_FHS=off -DSWIG_DIR=~/swig/share/swig -DSWIG_EXECUTABLE=~/swig/bin/swig -DOPENSIM_WITH_CASADI=$MOCO
         cmake . -LAH
-        cmake --build . --config Release -j$NUM_JOBS
+        cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
 
     - name: Test OpenSim
       run: |
