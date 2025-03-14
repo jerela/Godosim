@@ -102,9 +102,9 @@ The names of the keys describe their function, but a commented config file is av
 
 ##### generate
 - **first_image_index**
- - the image generation process is prepared by constructing a set of parameters (e.g., camera FOV, camera angle, avatar sex and weight, frame of kinematics data for the pose of the avatar, background effects) for different indices
- - this key lets you start from a defined index (e.g., if you want to generate your data in several different runs like generating the first 1000 images in the first run, and another 1000 images in the second run etc)
- - keep at default value 0 unless you know what you're doing
+  - the image generation process is prepared by constructing a set of parameters (e.g., camera FOV, camera angle, avatar sex and weight, frame of kinematics data for the pose of the avatar, background effects) for different indices
+  - this key lets you start from a defined index (e.g., if you want to generate your data in several different runs like generating the first 1000 images in the first run, and another 1000 images in the second run etc)
+  - keep at default value 0 unless you know what you're doing
 - **max_image_number**
  - defines how many synthetic photos are generated at most
 - **save_images**
