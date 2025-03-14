@@ -102,55 +102,56 @@ The names of the keys describe their function, but a commented config file is av
 
 ##### generate
 - **first_image_index**
-  - the image generation process is prepared by constructing a set of parameters (e.g., camera FOV, camera angle, avatar sex and weight, frame of kinematics data for the pose of the avatar, background effects) for different indices
-  - this key lets you start from a defined index (e.g., if you want to generate your data in several different runs like generating the first 1000 images in the first run, and another 1000 images in the second run etc)
-  - keep at default value 0 unless you know what you're doing
+	- the image generation process is prepared by constructing a set of parameters (e.g., camera FOV, camera angle, avatar sex and weight, frame of kinematics data for the pose of the avatar, background effects) for different indices
+	- this key lets you start from a defined index (e.g., if you want to generate your data in several different runs like generating the first 1000 images in the first run, and another 1000 images in the second run etc)
+	- keep at default value 0 unless you know what you're doing
 - **max_image_number**
- - defines how many synthetic photos are generated at most
+	- defines how many synthetic photos are generated at most
 - **save_images**
- - if true, the generated images are saved to file
- - if false, no images are saved
+	- if true, the generated images are saved to file
+	- if false, no images are saved
 - **save_csv**
- - if true, the annotations and labels are saved to file
- - keep at same value as **save_images**
+	- if true, the annotations and labels are saved to file
+	- keep at same value as **save_images**
+		- making both false is useful for checking if your custom config values look good without saving anything
 - **iteration_mode**
- - you can use this key to switch between image generation presets, e.g., to control if you want images only in a specific motion plane
- - the presets are defined in [Generate.gd](https://github.com/jerela/godosim-project-files) in the [project file repository](https://github.com/jerela/godosim-project-files), where you can also add define your own presets
+	- you can use this key to switch between image generation presets, e.g., to control if you want images only in a specific motion plane
+	- the presets are defined in [Generate.gd](https://github.com/jerela/godosim-project-files) in the [project file repository](https://github.com/jerela/godosim-project-files), where you can also add define your own presets
 - **occlusion**
- - by default ("none"), there are no external objects occluding the visual avatar in the generated images
- - there are options to add those by setting the value to "fragmented" or "windows" in case you want to augment the images in the 3D scene with occluding objects that interact with the lighting in the scene
+	- by default ("none"), there are no external objects occluding the visual avatar in the generated images
+	- there are options to add those by setting the value to "fragmented" or "windows" in case you want to augment the images in the 3D scene with occluding objects that interact with the lighting in the scene
 - **lighting**
- - daylight lighting ("normal") or very dark lighting ("low")
- - dark lighting can be used to generate low-light images more realistically than modifying the brightness and hues of the images after generation
+	- daylight lighting ("normal") or very dark lighting ("low")
+	- dark lighting can be used to generate low-light images more realistically than modifying the brightness and hues of the images after generation
 - **planar_offset**
- - this amount in degrees is added to the rotation of the camera view around the vertical axis
- - e.g., if you want to generate images in the sagittal plane view, you may have to adjust this value to find the sagittal plane
+	- this amount in degrees is added to the rotation of the camera view around the vertical axis
+	- e.g., if you want to generate images in the sagittal plane view, you may have to adjust this value to find the sagittal plane
 - **bodies**
- - names of bodies in the musculoskeletal model that you want to track (i.e., fetch their 3D transforms and set them to the corresponding bones of the mesh of the visual avatar)
- - this will also define what joints will be tracked, as the joints to track are defined as the joints that are children of tracked bodies
+	- names of bodies in the musculoskeletal model that you want to track (i.e., fetch their 3D transforms and set them to the corresponding bones of the mesh of the visual avatar)
+	- this will also define what joints will be tracked, as the joints to track are defined as the joints that are children of tracked bodies
 - **path_motion**
- - absolute directory and file path to an existing kinematics file that is used for simulating the motion of the musculoskeletal model and replicating its poses using the visual avatar
+	- absolute directory and file path to an existing kinematics file that is used for simulating the motion of the musculoskeletal model and replicating its poses using the visual avatar
 - **weights**
- - comma-separated string list of body weight types of the skin mesh, enclosed in square brackets
-  - values of **weights** and **sexes** must be in the same order as the models in **paths_model**
-   - see the [example config file](/misc/config.cfg)
- - for the default provided SMPL meshes, the names refer to the values of the body shape parameters, which vary between -2 and 2
+	- comma-separated string list of body weight types of the skin mesh, enclosed in square brackets
+		- values of **weights** and **sexes** must be in the same order as the models in **paths_model**
+			- see the [example config file](/misc/config.cfg)
+	- for the default provided SMPL meshes, the names refer to the values of the body shape parameters, which vary between -2 and 2
 - **sexes**
- - comma-separated string list of sexes of the skin mesh
+	- comma-separated string list of sexes of the skin mesh
 - **paths_model**
- - comma-separated list of absolute directory and file paths to the musculoskeletal models (.osim files)
+	- comma-separated list of absolute directory and file paths to the musculoskeletal models (.osim files)
 
 ##### occlusion-fragmented
 
 These keys are read only when **occlusion** under **generate** is set to "fragmented". In that scenario, the visual avatar is surrounded by "pebbles" that visually occlude parts of it. The size and density of pebbles, as well as the radius they are placed on, is controlled by changing the values.
 
 - **pebble_radius_min**
- - minimum radius of a pebble in meters
+	- minimum radius of a pebble in meters
 - **pebble_radius_max**
- - maximum radius of a pebble in meters
+	- maximum radius of a pebble in meters
 - **sphere_radius_min**
- - minimum distance of a pebble from the visual avatar in meters
+	- minimum distance of a pebble from the visual avatar in meters
 - **sphere_radius_max**
- - maximum distance of a pebble from the visual avatar in meters
+	- maximum distance of a pebble from the visual avatar in meters
 - **pebble_density**
- - controls how many pebbles are created
+	- controls how many pebbles are created
