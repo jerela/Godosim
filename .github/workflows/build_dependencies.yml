@@ -25,7 +25,7 @@ defaults:
 env:
   NUM_JOBS: 2
   DEBUG_TYPE: "Release"
-  MOCO: "off"
+  MOCO: "on"
   CORE_BRANCH: "opensim_451"
 jobs:
   
@@ -68,7 +68,7 @@ jobs:
       run: |
         mkdir -p ~/opensim-workspace/opensim-core-dependencies-build || true
         cd ~/opensim-workspace/opensim-core-dependencies-build
-        cmake ~/opensim-workspace/opensim-core-source/dependencies -DCMAKE_INSTALL_PREFIX=~/opensim-workspace/opensim-core-dependencies-install/ -DSUPERBUILD_ezc3d=on -DOPENSIM_WITH_CASADI="on"
+        cmake ~/opensim-workspace/opensim-core-source/dependencies -DCMAKE_INSTALL_PREFIX=~/opensim-workspace/opensim-core-dependencies-install/ -DSUPERBUILD_ezc3d=on -DOPENSIM_WITH_CASADI=$MOCO
         cmake . -LAH
         cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
 
@@ -76,7 +76,7 @@ jobs:
       run: |
         mkdir -p ~/opensim-workspace/opensim-core-build || true
         cd ~/opensim-workspace/opensim-core-build
-        cmake ~/opensim-workspace/opensim-core-source -G "Unix Makefiles" -DOPENSIM_DEPENDENCIES_DIR=~/opensim-workspace/opensim-core-dependencies-install/ -DBUILD_JAVA_WRAPPING=on -DBUILD_PYTHON_WRAPPING=on -DOPENSIM_C3D_PARSER=ezc3d -DBUILD_TESTING=off -DCMAKE_INSTALL_PREFIX=~/opensim-core -DOPENSIM_INSTALL_UNIX_FHS=off -DSWIG_DIR=~/swig/share/swig -DSWIG_EXECUTABLE=~/swig/bin/swig -DOPENSIM_WITH_CASADI="off"
+        cmake ~/opensim-workspace/opensim-core-source -G "Unix Makefiles" -DOPENSIM_DEPENDENCIES_DIR=~/opensim-workspace/opensim-core-dependencies-install/ -DBUILD_JAVA_WRAPPING=on -DBUILD_PYTHON_WRAPPING=on -DOPENSIM_C3D_PARSER=ezc3d -DBUILD_TESTING=off -DCMAKE_INSTALL_PREFIX=~/opensim-core -DOPENSIM_INSTALL_UNIX_FHS=off -DSWIG_DIR=~/swig/share/swig -DSWIG_EXECUTABLE=~/swig/bin/swig -DOPENSIM_WITH_CASADI=$MOCO
         cmake . -LAH
         cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
 
@@ -93,19 +93,19 @@ jobs:
         cd ~/opensim-core/bin && echo -e "yes" | ./opensim-install-command-line.sh
     
     # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days from its creation
-    #- uses: actions/checkout@v4
-    #  with:
-    #    submodules: recursive
-    #    token: ${{ SECRETS.PAT_submodules }}
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        token: ${{ SECRETS.PAT_submodules }}
 
     # Installs SCons
-    #- name: Install SCons
-    #  run: python -m pip install scons
+    - name: Install SCons
+      run: python -m pip install scons
 
-    #- name: Run SCons to build Godot Engine
-    #  run: |
-    #    cd submodules/godot/
-    #    pwd
-    #    scons --debug=findlibs vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
+    - name: Run SCons to build Godot Engine
+      run: |
+        cd submodules/godot/
+        pwd
+        scons --debug=findlibs vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
 
     # TODO: Build export templates, export executable binary, and test run it
