@@ -65,9 +65,10 @@ In the config file, there are the following sections:
 
 The names of the keys describe their function, but a commented config file is available [here](/misc/config.cfg) for clarity.
 
-#### Explanations of keys of each section
+#### Explanations of keys by section
 
 ##### paths
+
 - **path_output_annotations**
  - absolute directory path to where you want the program to save CSV-formatted annotations and labels for the generated images
 - **path_output_images_photos**
@@ -78,10 +79,12 @@ The names of the keys describe their function, but a commented config file is av
  - absolute directory path to where you want the progrma to save mask images of individual segments of the visualized human avatar
 
 ##### project_settings
+
 - **screen_resolution**
  - the resolution of generated images
 
 ##### external_data
+
 - **path_textures_skin_male**
  - absolute directory path to where you keep the texture files for male skin textures
 - **path_textures_skin_female**
@@ -94,6 +97,7 @@ The names of the keys describe their function, but a commented config file is av
  - absolute directory path to where you keep the HDRI background images
 
 ##### skeletontracker
+
 - **persistent_musculoskeletal_simulation_data**
  - whether you want the program to re-run the simulation whenever we switch between musculoskeletal models (e.g., as a result of changing the sex or weight of the visualized avatar) or keep previously run simulation data and retrieve it instead of re-running
  - true by default, which will retrieve previously simulated data instead of re-running, if such data is available
@@ -101,6 +105,7 @@ The names of the keys describe their function, but a commented config file is av
   - if you have very many different musculoskeletal models in the pipeline, you might want to consider setting this to false, which will make runtime a bit longer but may save memory because the results of all simulations are not stored in memory simultaneously
 
 ##### generate
+
 - **first_image_index**
 	- the image generation process is prepared by constructing a set of parameters (e.g., camera FOV, camera angle, avatar sex and weight, frame of kinematics data for the pose of the avatar, background effects) for different indices
 	- this key lets you start from a defined index (e.g., if you want to generate your data in several different runs like generating the first 1000 images in the first run, and another 1000 images in the second run etc)
