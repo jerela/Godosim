@@ -72,25 +72,25 @@ jobs:
         cmake . -LAH
         cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
 
-    #- name: Build OpenSim
-    #  run: |
-    #    mkdir -p ~/opensim-workspace/opensim-core-build || true
-    #    cd ~/opensim-workspace/opensim-core-build
-    #    cmake ~/opensim-workspace/opensim-core-source -G "Unix Makefiles" -DOPENSIM_DEPENDENCIES_DIR=~/opensim-workspace/opensim-core-dependencies-install/ -DBUILD_JAVA_WRAPPING=on -DBUILD_PYTHON_WRAPPING=on -DOPENSIM_C3D_PARSER=ezc3d -DBUILD_TESTING=off -DCMAKE_INSTALL_PREFIX=~/opensim-core -DOPENSIM_INSTALL_UNIX_FHS=off -DSWIG_DIR=~/swig/share/swig -DSWIG_EXECUTABLE=~/swig/bin/swig -DOPENSIM_WITH_CASADI=$MOCO
-    #    cmake . -LAH
-    #    cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
+    - name: Build OpenSim
+      run: |
+        mkdir -p ~/opensim-workspace/opensim-core-build || true
+        cd ~/opensim-workspace/opensim-core-build
+        cmake ~/opensim-workspace/opensim-core-source -G "Unix Makefiles" -DOPENSIM_DEPENDENCIES_DIR=~/opensim-workspace/opensim-core-dependencies-install/ -DBUILD_JAVA_WRAPPING=on -DBUILD_PYTHON_WRAPPING=on -DOPENSIM_C3D_PARSER=ezc3d -DBUILD_TESTING=off -DCMAKE_INSTALL_PREFIX=~/opensim-core -DOPENSIM_INSTALL_UNIX_FHS=off -DSWIG_DIR=~/swig/share/swig -DSWIG_EXECUTABLE=~/swig/bin/swig -DOPENSIM_WITH_CASADI=$MOCO
+        cmake . -LAH
+        cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
 
-    #- name: Test OpenSim
-    #  run: |
-    #    cd ~/opensim-workspace/opensim-core-build
-    #    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-workspace/opensim-core-dependencies-install/simbody/lib
-    #    ctest --parallel $NUM_JOBS --output-on-failure
+    - name: Test OpenSim
+      run: |
+        cd ~/opensim-workspace/opensim-core-build
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-workspace/opensim-core-dependencies-install/simbody/lib
+        ctest --parallel $NUM_JOBS --output-on-failure
 
-    #- name: Install OpenSim
-    #  run: |
-    #    cd ~/opensim-workspace/opensim-core-build
-    #    cmake --install .
-    #    cd ~/opensim-core/bin && echo -e "yes" | ./opensim-install-command-line.sh
+    - name: Install OpenSim
+      run: |
+        cd ~/opensim-workspace/opensim-core-build
+        cmake --install .
+        cd ~/opensim-core/bin && echo -e "yes" | ./opensim-install-command-line.sh
     
     # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days from its creation
     #- uses: actions/checkout@v4
