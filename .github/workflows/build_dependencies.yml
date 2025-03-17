@@ -23,10 +23,10 @@ defaults:
     shell: bash
 
 env:
-  NUM_JOBS: 2
+  NUM_JOBS: 4
   DEBUG_TYPE: "Release"
-  MOCO: "on"
-  CORE_BRANCH: "opensim_451"
+  MOCO: "off"
+  CORE_BRANCH: "main"
 jobs:
   
   Ubuntu:
