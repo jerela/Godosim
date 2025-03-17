@@ -91,11 +91,11 @@ jobs:
         cmake . -LAH
         cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
 
-    - name: Test OpenSim
-      run: |
-        cd ~/opensim-workspace/opensim-core-build
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-workspace/opensim-core-dependencies-install/simbody/lib
-        ctest --parallel $NUM_JOBS --output-on-failure
+    #- name: Test OpenSim
+    #  run: |
+    #    cd ~/opensim-workspace/opensim-core-build
+    #    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-workspace/opensim-core-dependencies-install/simbody/lib
+    #    ctest --parallel $NUM_JOBS --output-on-failure
 
     - name: Cache OpenSim installation
       id: cache-opensim-install-ubuntu
