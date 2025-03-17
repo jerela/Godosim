@@ -26,7 +26,7 @@ env:
   NUM_JOBS: 2
   DEBUG_TYPE: "Release"
   MOCO: "on"
-  CORE_BRANCH: "main"
+  CORE_BRANCH: "opensim_451"
 jobs:
   
   Ubuntu:
@@ -41,8 +41,8 @@ jobs:
     - name: Create directories
       run: mkdir ~/opensim-workspace
 
-    - name: Set UTF8 encoding
-      run: export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
+    - name: Set library paths
+      run: export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-workspace/opensim-core-dependencies-install/simbody/lib
 
     - name: Install SWIG
       run: |
