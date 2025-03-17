@@ -21,10 +21,10 @@ The settings in the config file are organized **sections**, **keys**, and **valu
 ```
 [section]
 key=value
-anotherKey=someValue
+another_key=some_value
 
-[someOtherSection]
-booleanSetting=true
+[some_other_section]
+boolean_setting=true
 floating_point=3.14159
 message="Hello, world"
 ```
