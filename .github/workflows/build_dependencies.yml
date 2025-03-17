@@ -23,7 +23,7 @@ defaults:
     shell: bash
 
 env:
-  NUM_JOBS: 2
+  NUM_JOBS: 1
   DEBUG_TYPE: "Release"
   MOCO: "on"
   CORE_BRANCH: "opensim_451"
@@ -40,6 +40,9 @@ jobs:
 
     - name: Create directories
       run: mkdir ~/opensim-workspace
+
+    - name: Set UTF8 encoding
+      run: export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 
     - name: Install SWIG
       run: |
