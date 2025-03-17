@@ -91,17 +91,25 @@ jobs:
         cmake . -LAH
         cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
 
-    #- name: Test OpenSim
-    #  run: |
-    #    cd ~/opensim-workspace/opensim-core-build
-    #    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-workspace/opensim-core-dependencies-install/simbody/lib
-    #    ctest --parallel $NUM_JOBS --output-on-failure
+    - name: Test OpenSim
+      run: |
+        cd ~/opensim-workspace/opensim-core-build
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-workspace/opensim-core-dependencies-install/simbody/lib
+        ctest --parallel $NUM_JOBS --output-on-failure
 
-    #- name: Install OpenSim
-    #  run: |
-    #    cd ~/opensim-workspace/opensim-core-build
-    #    cmake --install .
-    #    cd ~/opensim-core/bin && echo -e "yes" | ./opensim-install-command-line.sh
+    - name: Cache OpenSim installation
+      id: cache-opensim-install-ubuntu
+      uses: actions/cache@v4
+      with:
+        path: ~/opensim-core/
+        key: ${{ runner.os }}-opensim-install
+
+    - name: Install OpenSim
+      if: steps.cache-opensim-install-ubuntu.outputs.cache-hit != 'true'
+      run: |
+        cd ~/opensim-workspace/opensim-core-build
+        cmake --install .
+        cd ~/opensim-core/bin && echo -e "yes" | ./opensim-install-command-line.sh
     
     # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days from its creation
     #- uses: actions/checkout@v4
