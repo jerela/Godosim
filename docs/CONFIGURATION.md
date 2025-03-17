@@ -138,13 +138,14 @@ The names of the keys describe their function, but a commented config file is av
 	- absolute directory and file path to an existing kinematics file that is used for simulating the motion of the musculoskeletal model and replicating its poses using the visual avatar
 - **weights**
 	- comma-separated string list of body weight types of the skin mesh, enclosed in square brackets
-		- values of **weights** and **sexes** must be in the same order as the models in **paths_model**
-			- see the [example config file](/misc/config.cfg)
 	- for the default provided SMPL meshes, the names refer to the values of the body shape parameters, which vary between -2 and 2
 - **sexes**
 	- comma-separated string list of sexes of the skin mesh
 - **paths_model**
 	- comma-separated list of absolute directory and file paths to the musculoskeletal models (.osim files)
+	- assuming "male" is listed before "female" in **sexes**, list musculoskeletal models for male dimensions first and for female dimensions after that
+		- similarly, list the musculoskeletal models in the order defined by **weights**
+	- see the [example config file](/misc/config.cfg)
 
 ##### occlusion-fragmented
 
