@@ -1,6 +1,11 @@
 # Godosim
 Godot Engine integrating OpenSim musculoskeletal modeling software for generation of synthetic images of human kinematics 
 
+<details>
+<summary>Click to enable GIF of program at work (**warning**: flashing lights)</summary>
+![](docs/img/generation_process.gif)
+</details>
+
 - [Getting started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installing](#installing)
@@ -13,9 +18,6 @@ Godot Engine integrating OpenSim musculoskeletal modeling software for generatio
 - [License and copyright](#license-and-copyright)
 - [Acknowledgements](#acknowledgements)
 <!-- toc -->
-
-![](docs/img/generation_process.gif)
-
 
 ## Godosim
 This repository is the main repository of the Godosim project, which enables the generation of synthetic images of human motion with automatic annotations of anatomical landmarks from OpenSim-compatible musculoskeletal models.
