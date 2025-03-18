@@ -58,8 +58,11 @@ You are recommended to run the binary through the command line to receive consol
 
 When you first run the binary, it will generate a config file for you as described [here](/docs/CONFIGURATION.md). Edit the paths in the configuration file to match your file system. You will need to download the following files:
 1. skin meshes
+	- see [Releases](missinglink
 2. textures compatible with the skin meshes
+	- you have to register and accept the license agreement to download them from the [BEDLAM project site](https://bedlam.is.tue.mpg.de/)
 3. HDRI backgrounds
+	- you can download these from [Poly Haven](https://polyhaven.com/hdris)
 4. OpenSim-compatible musculoskeletal model
 5. OpenSim-compatible kinematics file
 
@@ -92,6 +95,15 @@ You can download the sample dataset on [Zenodo](MISSING).
 See [here](MISSING).
 
 For advanced users, ...
+
+### Building Godot with OpenSim
+
+### Building and running the binary yourself
+
+#### After building Godot with OpenSim integration, building the export template, and exporting the project to create binaries myself, running the binary fails to load background images.
+
+You need to enable the TinyEXR module to be able to load .exr images at runtime. By default, it is enabled for the Godot editor, but not for exported binaries. Navigate to godot/modules/tinyexr/config.py and make can_build() always return True. Then try creating the export template again. See [here](https://github.com/godotengine/godot/issues/71505) for details.
+
 
 ## Authors
 
