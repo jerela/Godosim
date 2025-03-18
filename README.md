@@ -14,6 +14,8 @@ Godot Engine integrating OpenSim musculoskeletal modeling software for generatio
 - [Acknowledgements](#acknowledgements)
 <!-- toc -->
 
+![](docs/img/generation_process.gif)
+
 
 ## Godosim
 This repository is the main repository of the Godosim project, which enables the generation of synthetic images of human motion with automatic annotations of anatomical landmarks from OpenSim-compatible musculoskeletal models.
@@ -58,7 +60,7 @@ You are recommended to run the binary through the command line to receive consol
 
 When you first run the binary, it will generate a config file for you as described [here](/docs/CONFIGURATION.md). Edit the paths in the configuration file to match your file system. You will need to download the following files:
 1. skin meshes
-	- see [Releases](missinglink
+	- see [Releases](missinglink)
 2. textures compatible with the skin meshes
 	- you have to register and accept the license agreement to download them from the [BEDLAM project site](https://bedlam.is.tue.mpg.de/)
 3. HDRI backgrounds
