@@ -2,8 +2,8 @@
 Godot Engine integrating OpenSim musculoskeletal modeling software for generation of synthetic images of human kinematics 
 
 <details>
-<summary>Click to enable GIF of program at work (**warning**: flashing lights)</summary>
-![](docs/img/generation_process.gif)
+<summary>Click to enable GIF of program at work (warning: flashing lights)</summary>
+<img src="https://github.com/jerela/Godosim/blob/docs/docs/img/generation_process.gif">
 </details>
 
 - [Getting started](#getting-started)
