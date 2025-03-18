@@ -112,19 +112,19 @@ jobs:
         cd ~/opensim-core/bin && echo -e "yes" | ./opensim-install-command-line.sh
     
     # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days from its creation
-    #- uses: actions/checkout@v4
-    #  with:
-    #    submodules: recursive
-    #    token: ${{ SECRETS.PAT_submodules }}
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        token: ${{ SECRETS.PAT_submodules }}
 
     # Installs SCons
-    #- name: Install SCons
-    #  run: python -m pip install scons
+    - name: Install SCons
+      run: python -m pip install scons
 
-    #- name: Run SCons to build Godot Engine
-    #  run: |
-    #    cd submodules/godot/
-    #    pwd
-    #    scons --debug=findlibs vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
+    - name: Run SCons to build Godot Engine
+      run: |
+        cd submodules/godot/
+        pwd
+        scons --debug=findlibs vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
 
     # TODO: Build export templates, export executable binary, and test run it
