@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - main
+      - automatic-Godot-build
+
   pull_request:
     branches:
       - main
@@ -16,6 +18,16 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+defaults:
+  run:
+    shell: bash
+
+env:
+  NUM_JOBS: 4
+  DEBUG_TYPE: "Release"
+  MOCO: "on"
+  CORE_BRANCH: "main"
+
 jobs:
   
   Ubuntu:
@@ -23,28 +35,85 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
+    
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install --yes build-essential cmake autotools-dev autoconf pkg-config automake libopenblas-dev liblapack-dev freeglut3-dev libxi-dev libxmu-dev doxygen python3 python3-dev python3-numpy python3-setuptools git libssl-dev libpcre3 libpcre3-dev libpcre2-dev libtool gfortran ninja-build patchelf byacc bison openjdk-8-jdk
 
-    # Install packages that are required; without this, building Godot throws an error because libopenblas.so.0 cannot be found. Might be because the OpenSim installation is cached, and while the Opensim install script installs libopenblas-dev, caching the installed OpenSim directory doesn't keep the dependencies. In other words, it's possible that just innstalling libopenblas-dev here is necessary and the other packages are unnecessary, but installing them it very fast so it doesn't meaningfully hurt performance.
-    - name: Install libopenblas-dev and add it to environment variables, as well as other packages
-      run: sudo apt-get update && sudo apt-get install --yes build-essential libtool autoconf pkg-config gfortran libopenblas-dev liblapack-dev freeglut3-dev libxi-dev libxmu-dev doxygen patchelf
+    - name: Create directories
+      run: mkdir ~/opensim-workspace
 
-    # Cache OpenSim once it's installed so we don't have to build it again.
-    - name: Cache OpenSim
-      id: cache-opensim-ubuntu
+    - name: Set library paths
+      run: export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-workspace/opensim-core-dependencies-install/simbody/lib
+
+    - name: Install SWIG
+      run: |
+        mkdir -p ~/opensim-workspace/swig-source || true && cd ~/opensim-workspace/swig-source
+        wget -nc -q --show-progress https://github.com/swig/swig/archive/refs/tags/v4.1.1.tar.gz
+        tar xzf v4.1.1.tar.gz && cd swig-4.1.1
+        sh autogen.sh && ./configure --prefix=$HOME/swig --disable-ccache
+        make && make -j$NUM_JOBS install  
+
+    - name: Get OpenSim source code
+      run: |
+        mkdir -p ~/opensim-workspace/opensim-core-source || true
+        git -C ~/opensim-workspace/opensim-core-source pull || git clone https://github.com/opensim-org/opensim-core.git ~/opensim-workspace/opensim-core-source
+        cd ~/opensim-workspace/opensim-core-source
+        git checkout $CORE_BRANCH
+
+    - name: Cache dependencies
+      id: cache-dependencies-ubuntu
       uses: actions/cache@v4
       with:
-        path: ~/opensim-core
-        key: ${{ runner.os }}-opensim
+        path: ~/opensim-workspace/opensim-core-dependencies-install/
+        key: ${{ runner.os }}-dependencies
 
-    # Run OpenSim installation if we don't have OpenSim cached.
-    - name: Download OpenSim installation script and run it to install OpenSim
-      if: steps.cache-opensim-ubuntu.outputs.cache-hit != 'true'
+    - name: Build OpenSim dependencies
+      if: steps.cache-dependencies-ubuntu.outputs.cache-hit != 'true'
       run: |
-        wget https://raw.githubusercontent.com/opensim-org/opensim-core/refs/heads/main/scripts/build/opensim-core-linux-build-script.sh
-        sudo chmod +x opensim-core-linux-build-script.sh
-        ./opensim-core-linux-build-script.sh -d "Release" -j 2 -c "opensim_451"
+        mkdir -p ~/opensim-workspace/opensim-core-dependencies-build || true
+        cd ~/opensim-workspace/opensim-core-dependencies-build
+        cmake ~/opensim-workspace/opensim-core-source/dependencies -DCMAKE_INSTALL_PREFIX=~/opensim-workspace/opensim-core-dependencies-install/ -DSUPERBUILD_ezc3d=on -DOPENSIM_WITH_CASADI=$MOCO
+        cmake . -LAH
+        cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
 
-    # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days
+    - name: Cache OpenSim build
+      id: cache-opensim-build-ubuntu
+      uses: actions/cache@v4
+      with:
+        path: ~/opensim-workspace/opensim-core-build/
+        key: ${{ runner.os }}-opensim-build
+
+    - name: Build OpenSim
+      if: steps.cache-opensim-build-ubuntu.outputs.cache-hit != 'true'
+      run: |
+        mkdir -p ~/opensim-workspace/opensim-core-build || true
+        cd ~/opensim-workspace/opensim-core-build
+        cmake ~/opensim-workspace/opensim-core-source -G "Unix Makefiles" -DOPENSIM_DEPENDENCIES_DIR=~/opensim-workspace/opensim-core-dependencies-install/ -DBUILD_JAVA_WRAPPING=on -DBUILD_PYTHON_WRAPPING=on -DOPENSIM_C3D_PARSER=ezc3d -DBUILD_TESTING=off -DCMAKE_INSTALL_PREFIX=~/opensim-core -DOPENSIM_INSTALL_UNIX_FHS=off -DSWIG_DIR=~/swig/share/swig -DSWIG_EXECUTABLE=~/swig/bin/swig -DOPENSIM_WITH_CASADI=$MOCO
+        cmake . -LAH
+        cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
+
+    #- name: Test OpenSim
+    #  run: |
+    #    cd ~/opensim-workspace/opensim-core-build
+    #    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-workspace/opensim-core-dependencies-install/simbody/lib
+    #    ctest --parallel $NUM_JOBS --output-on-failure
+
+    - name: Cache OpenSim installation
+      id: cache-opensim-install-ubuntu
+      uses: actions/cache@v4
+      with:
+        path: ~/opensim-core/
+        key: ${{ runner.os }}-opensim-install
+
+    - name: Install OpenSim
+      if: steps.cache-opensim-install-ubuntu.outputs.cache-hit != 'true'
+      run: |
+        cd ~/opensim-workspace/opensim-core-build
+        cmake --install .
+        cd ~/opensim-core/bin && echo -e "yes" | ./opensim-install-command-line.sh
+    
+    # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days from its creation
+
     - uses: actions/checkout@v4
       with:
         submodules: recursive
