@@ -131,6 +131,7 @@ jobs:
         
     - name: Build Godot export template
       run: |
+        cd submodules/godot/
         scons platform=linuxbsd target=template_release arch=x86_64 vsproj=no custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
         
         
