@@ -127,6 +127,11 @@ jobs:
       run: |
         cd submodules/godot/
         pwd
-        scons --debug=findlibs vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
-
+        scons vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
+        
+    - name: Build Godot export template
+      run: |
+        scons platform=linuxbsd target=template_release arch=x86_64 vsproj=no custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
+        
+        
     # TODO: Build export templates, export executable binary, and test run it
