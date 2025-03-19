@@ -43,7 +43,7 @@ The prerequisites depend on what you want to use Godosim for. We offer access in
    - [Custom Godosim C++ module](https://github.com/jerela/godosim-cpp-modules) (included in submodules)
    - [Godosim project files for Godot Engine](https://github.com/jerela/godosim-project-files) (included in submodules)
    - [SCons](https://scons.org/) to build Godot with custom modules. For Godot-specific use instructions, see [the official documentation](https://docs.godotengine.org/en/stable/contributing/development/compiling/introduction_to_the_buildsystem.html).
-   - See the instructions on [building Godot Engine and customizing Godosim in Godot Editor](MISSING).
+   - See the instructions on [building Godot Engine and customizing Godosim in Godot Editor](/docs/BUILDING.md).
 
 
 ### Installing
@@ -90,7 +90,7 @@ When you first run the binary, it will generate a config file for you as describ
 
 ## Troubleshooting and FAQ
 
-See [here](/docs/TROUBLESHOOTING.md)
+See [here](/docs/TROUBLESHOOTING.md).
 
 
 ## Authors
