@@ -107,7 +107,7 @@ Note that we are not affiliated, endorsed, or sponsored by the creators of OpenS
 
 ## Acknowledgements
 
-TBA
+A big thanks to the helpful Godot Engine community, particularly [R Hill](https://github.com/partybusiness), who helped greatly with the [body mask shader](https://github.com/jerela/godosim-project-files/blob/master/Shaders/body_mask.gdshader).
 
 ## Publication and citation
 

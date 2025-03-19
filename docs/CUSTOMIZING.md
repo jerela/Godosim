@@ -32,3 +32,7 @@ You can use the Godot editor to open the [Godosim project files](https://github.
 			- Different image generation protocols, which are controlled with **iteration_mode** in [config.cfg](/misc/other/config.cfg), are defined in this function. You can also write your own.
 	- The script [HumanModel.gd](https://github.com/jerela/godosim-project-files/blob/master/Scripts/HumanModel.gd) contains the bindings to the OpenSim-to-Godot integration and defines how the pose of the visual avatar is controlled.
 		- See the functions *run_simulation()* and *visualize_frame()* in particular.
+
+## Modifying the OpenSim integration
+
+See the [SkeletonTracker](https://github.com/jerela/godosim-cpp-modules/blob/main/godosim/SkeletonTracker.h) class for direct access to the C++ module that utilizes OpenSim.
