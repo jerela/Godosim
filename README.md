@@ -50,9 +50,35 @@ The prerequisites depend on what you want to use Godosim for. We offer access in
 
 Step by step instructions on how to install this project.
 
-#### Windows
+#### Path of least resistance: with pre-built binary
 
-#### UNIX
+1. Install [OpenSim 4.5](https://simtk.org/frs/?group_id=91)
+	- You will need to register to SimTK for free to be able to download OpenSim.
+1. Download the Godosim binary executable from [Releases](MISSING)
+3. The executable uses the shared libraries of OpenSim. You need to tell the operating system where to find them in one of two ways:
+	- Find the **bin** directory in your OpenSim installation root directory, and add it to the PATH environmental variable (**recommended**).
+	- Alternatively, copy all .dll files from the **bin** directory to where you keep the Godosim executable.
+4. Next, you need to download assets that Godosim uses.
+	1. Download skin meshes from [Releases](missing).
+	2. Download scaled MSK models corresponding to the skin meshes from [Releases](missing).
+	3. Download a pre-calculated motion file that is compatible with the scaled MSK models from [SimTK](https://simtk.org/frs/?group_id=516).
+		- You need to download the first package, **Simulation of Human Running**. From the archive, you need to find the file **RunningSimulation_simTK/IK/subject02_running.trc** and extract it.
+ 	4. Download textures from [BEDLAM](missing)
+    		- You will need to register for free and accept the license terms to be able to download the files.
+    		- The files you need are **body textures** (1.8 GB) and **clothing overlay textures** (5.3 GB). You do not need the other BEDLAM files.
+		- Extract and move the ones you want to use to a folder.
+			- Body textures for males and females should have their own folders.
+   			- The clothing textures should have their own folder without separation by sex.
+	5. Download some HDRI backgrounds from [Poly Haven](missing).
+		- Make a folder to put them in.
+5. Now you need to configure your **config.cfg** file. When you run Godosim for the first time, it creates one for you. Alternatively, you can download it [here](missing).
+	- You need to define where you keep the skin meshes, scaled MSK models, motion file, clothing and skin textures, and HDRI backgrounds.
+ 		- See [here](missing) for instructions on filling the path values.
+6. You are now set.
+	- Run the Godosim executable from the command line to receive printed output of the program and troubleshoot issues.
+	- Run the executable with the argument --demo to access a "demonstration" scene that lets you manually experiment with how the program works.
+
+
 
 ### Running the program
 
