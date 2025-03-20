@@ -143,3 +143,19 @@ jobs:
       with:
         name: linux-export-template
         path: submodules/godot/bin/godot.linuxbsd.template_release.x86_64
+
+    - name: Export project into binary
+      run: |
+        cd submodules/godot/bin/
+        mv godot.linuxbsd.editor.x86_64 ../../godosim-project-files
+        cd ../..
+        mkdir bin
+        cd godosim-project-files
+        chmod +x bin/godot.linuxbsd.editor.x86_64
+        ./godot.linuxbsd.editor.x86_64 --export-release Linux ../bin/godosim-linux
+
+    - name: Store binary
+      uses: actions/upload-artifact@v4
+      with:
+        name: binary-linux
+        path: submodules/bin/godosim-linux
