@@ -27,7 +27,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 The prerequisites depend on what you want to use Godosim for. We offer access in three levels of increasing complexity:
-1. If you simply wish to access the sample dataset of generated with Godosim, you can find it on [Zenodo](MISSING).
+1. If you simply wish to access the sample dataset of annotated images generated with Godosim, you can find it on [Zenodo](MISSING).
 2. If you wish to use the pre-built binary applications and generate your own annotated images while customizing the pipeline from the configuration file, you can follow the instructions on [setting up Godosim](#setting-up).
 3. **ADVANCED USERS**: If you're a right proper wizard and wish to build your own customized Godosim application, you will need the following in addition to the prerequisites of step 2:
    - [Godot Engine 4.3](https://github.com/godotengine/godot/tree/4.3) (included in submodules)
@@ -75,10 +75,6 @@ You are recommended to run the binary from the command line to receive console o
 When you first run the program, it will generate a config file for you as described [here](/docs/CONFIGURATION.md). Edit the paths in the configuration file to match your file system. Once the correct paths are in and you run the program, you will see a screen where a visual avatar of a human is shown in various poses, clothing and skin textures, and with various backgrounds. The GIF animation at the top of this readme demonstrates the procedure.
 
 Once the generation procedure is finished, the program will write the output to the directories specified in the config file and then close.
-
-## Customizing the program
-
-See [here](/docs/CUSTOMIZING.md) for instructions on customizing the program.
 
 ## Troubleshooting and FAQ
 
