@@ -163,7 +163,7 @@ jobs:
         mkdir bin
         cd godosim-project-files
         chmod +x godot.linuxbsd.editor.x86_64
-        ./godot.linuxbsd.editor.x86_64 --export-release Linux ../bin/godosim-linux
+        ./godot.linuxbsd.editor.x86_64 --export-release Linux ../bin/godosim-linux custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
 
     - name: Store binary
       uses: actions/upload-artifact@v4
