@@ -92,12 +92,6 @@ jobs:
         cmake . -LAH
         cmake --build . --config $DEBUG_TYPE -j$NUM_JOBS
 
-    #- name: Test OpenSim
-    #  run: |
-    #    cd ~/opensim-workspace/opensim-core-build
-    #    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-workspace/opensim-core-dependencies-install/simbody/lib
-    #    ctest --parallel $NUM_JOBS --output-on-failure
-
     - name: Cache OpenSim installation
       id: cache-opensim-install-ubuntu
       uses: actions/cache@v4
@@ -122,13 +116,29 @@ jobs:
     - name: Install SCons and other Godot build/export dependencies
       run: sudo apt-get install --yes build-essential scons pkg-config libx11-dev libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev libwayland-dev
 
+    - name: Cache Godot editor binary
+      id: cache-godot-editor-binary-ubuntu
+      uses: actions/cache@v4
+      with:
+        path: submodules/godot/bin/godot.linuxbsd.editor.x86_64
+        key: ${{ runner.os }}-godot-editor-binary
+
     - name: Run SCons to build Godot Engine
+      if: steps.cache-godot-editor-binary-ubuntu.outputs.cache-hit != 'true'
       run: |
         cd submodules/godot/
         pwd
         scons vsproj=no platform=linuxbsd target=editor custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
-        
+
+    - name: Cache Godot export template
+      id: cache-godot-export-template-ubuntu
+      uses: actions/cache@v4
+      with:
+        path: submodules/godot/bin/godot.linuxbsd.template_release.x86_64
+        key: ${{ runner.os }}-godot-export-template
+    
     - name: Build Godot export template
+      if: steps.cache-godot-export-template-ubuntu.outputs.cache-hit != 'true'
       run: |
         cd submodules/godot/
         scons platform=linuxbsd target=template_release arch=x86_64 vsproj=no custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
@@ -144,6 +154,7 @@ jobs:
         name: linux-export-template
         path: submodules/godot/bin/godot.linuxbsd.template_release.x86_64
 
+    # this will create a binary called "godosim-linux", which will be stored in the step after this one
     - name: Export project into binary
       run: |
         cd submodules/godot/bin/
@@ -151,7 +162,7 @@ jobs:
         cd ../..
         mkdir bin
         cd godosim-project-files
-        chmod +x bin/godot.linuxbsd.editor.x86_64
+        chmod +x godot.linuxbsd.editor.x86_64
         ./godot.linuxbsd.editor.x86_64 --export-release Linux ../bin/godosim-linux
 
     - name: Store binary
