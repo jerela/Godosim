@@ -132,6 +132,14 @@ jobs:
       run: |
         cd submodules/godot/
         scons platform=linuxbsd target=template_release arch=x86_64 vsproj=no custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
-        
-        
-    # TODO: Build export templates, export executable binary, and test run it
+
+    - name: Print Godot binary files
+      run: |
+        cd submodules/godot/bin/
+        ls
+
+    - name: Store artifact of built export template
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux-export-template
+        path: submodules/godot/bin/godot.linuxbsd.template_release.x86_64
