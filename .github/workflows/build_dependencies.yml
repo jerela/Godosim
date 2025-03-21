@@ -154,11 +154,20 @@ jobs:
         name: linux-export-template
         path: submodules/godot/bin/godot.linuxbsd.template_release.x86_64
 
+    - name: Print shared library locations
+      run: |
+        cd ~/opensim-core/sdk/lib
+        pwd
+        ls
+        cd ~/opensim-core/sdk/Simbody/lib
+        pwd
+        ls
+
     - name: Set required OpenSim shared library paths before export and path for finding the built Godot binary
       run: |
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-core/sdk/lib
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-core/sdk/Simbody/lib
-        #export PATH=$PATH:~/submodules/godot/bin
+        echo $LD_LIBRARY_PATH
 
     # this will create a binary called "godosim-linux", which will be stored in the step after this one
     - name: Export project into binary
