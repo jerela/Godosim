@@ -42,6 +42,7 @@ jobs:
     - name: Create directories
       run: mkdir ~/opensim-workspace
 
+    # this step may be useless, as LD_LIBRARY_PATH does not seem to persist between steps
     - name: Set library paths
       run: export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-workspace/opensim-core-dependencies-install/simbody/lib
 
@@ -168,16 +169,21 @@ jobs:
       run: |
         cd submodules/godot/bin/
         chmod +x godot.linuxbsd.editor.x86_64
-        cd ../..
+        cd ../../..
         mkdir godosim-bin
-        cd godosim-project-files
+        cd submodules/godosim-project-files
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-core/sdk/lib
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-core/sdk/Simbody/lib
-        echo $LD_LIBRARY_PATH
-        LD_LIBRARY_PATH=$LD_LIBRARY_PATH ../godot/bin/godot.linuxbsd.editor.x86_64 --headless --export-release Linux ../godosim-bin/godosim-linux
+        LD_LIBRARY_PATH=$LD_LIBRARY_PATH ../godot/bin/godot.linuxbsd.editor.x86_64 --headless --export-release Linux ../../godosim-bin/godosim-linux
 
     - name: Store binary
       uses: actions/upload-artifact@v4
       with:
         name: binary-linux
-        path: submodules/godosim-bin/godosim-linux
+        path: godosim-bin/godosim-linux
+
+    - name: Run the Godosim binary
+      run: |
+        cd godosim-bin
+        chmod +x godosim-linux
+        ./godosim-linux
