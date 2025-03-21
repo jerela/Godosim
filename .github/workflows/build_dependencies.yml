@@ -177,6 +177,7 @@ jobs:
         cd ../..
         mkdir godosim-bin
         cd godosim-project-files
+        echo $LD_LIBRARY_PATH
         LD_LIBRARY_PATH=$LD_LIBRARY_PATH ../godot/bin/godot.linuxbsd.editor.x86_64 --export-release Linux ../godosim-bin/godosim-linux
 
     - name: Store binary
