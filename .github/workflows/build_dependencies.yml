@@ -154,19 +154,24 @@ jobs:
         name: linux-export-template
         path: submodules/godot/bin/godot.linuxbsd.template_release.x86_64
 
-    # this will create a binary called "godosim-linux", which will be stored in the step after this one
-    #- name: Export project into binary
-    #  run: |
-    #    cd submodules/godot/bin/
-    #    mv godot.linuxbsd.editor.x86_64 ../../godosim-project-files
-    #    cd ../..
-    #    mkdir bin
-    #    cd godosim-project-files
-    #    chmod +x godot.linuxbsd.editor.x86_64
-    #    ./godot.linuxbsd.editor.x86_64 --export-release Linux ../bin/godosim-linux custom_modules=../godosim-cpp-modules opensim_install_dir=~/opensim-core
+    - name: Set required OpenSim shared library paths before export and path for finding the built Godot binary
+      run: |
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-core/sdk/lib
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-core/sdk/Simbody/lib
+        export PATH=$PATH:~/submodules/godot/bin
 
-    #- name: Store binary
-    #  uses: actions/upload-artifact@v4
-    #  with:
-    #    name: binary-linux
-    #    path: submodules/bin/godosim-linux
+    # this will create a binary called "godosim-linux", which will be stored in the step after this one
+    - name: Export project into binary
+      run: |
+        cd submodules/godot/bin/
+        chmod +x godot.linuxbsd.editor.x86_64
+        cd ../..
+        mkdir godosim-bin
+        cd godosim-project-files
+        ./godot.linuxbsd.editor.x86_64 --export-release Linux ../godosim-bin/godosim-linux
+
+    - name: Store binary
+      uses: actions/upload-artifact@v4
+      with:
+        name: binary-linux
+        path: submodules/godosim-bin/godosim-linux
