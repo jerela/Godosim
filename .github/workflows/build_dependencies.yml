@@ -189,3 +189,4 @@ jobs:
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-core/sdk/lib
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/opensim-core/sdk/Simbody/lib
         LD_LIBRARY_PATH=$LD_LIBRARY_PATH ./godosim-linux
+
