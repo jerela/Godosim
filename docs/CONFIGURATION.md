@@ -105,7 +105,7 @@ The names of the keys describe their function, but a commented config file is av
 		- this will improve the performance of the program because a single musculoskeletal model is only simulated once
 		- if you have very many different musculoskeletal models in the pipeline, you might want to consider setting this to false, which will make runtime a bit longer but may save memory because the results of all simulations are not stored in memory simultaneously
 
-##### bounding_box**
+##### bounding_box
 - **step**
 	- how many vertices to skip between each vertex of the skin mesh that is included in finding the bounding box around the skin mesh
 	- set to 1 if you want to iterate through all vertices for maximum accuracy but slowest computation speed
@@ -113,6 +113,7 @@ The names of the keys describe their function, but a commented config file is av
 - **padding**
 	- how many pixels of padding are added to all four sides of the 2D bounding box after calculating it
 	- the use of padding is recommended is **step** is greater than 1
+
 ##### generate
 
 - **first_image_index**
