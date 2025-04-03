@@ -55,6 +55,7 @@ In the config file, there are the following sections:
 - **project_settings**: settings related to the Godot project
 - **external_data**: absolute directory paths to where external data (data not included in the binary, such as meshes and 3rd party textures) are
 - **skeletontracker**: settings for controlling the OpenSim musculoskeletal simulations
+- **bounding_box**: settings for controlling the calculation of the 2D bounding box enclosing the visual avatar in each image
 - **generate**: settings for controlling the image generation parameters
 - **occlusion-fragmented**: settings for controlling the objects providing visual occlusion in the images, if the *occlusion* key is set to *"fragmented"* under the **generate** section
 
@@ -70,13 +71,13 @@ The names of the keys describe their function, but a commented config file is av
 ##### paths
 
 - **path_output_annotations**
- - absolute directory path to where you want the program to save CSV-formatted annotations and labels for the generated images
+	- absolute directory path to where you want the program to save CSV-formatted annotations and labels for the generated images
 - **path_output_images_photos**
- - absolute directory path to where you want the program to save RGB images ("synthetic photos") of the visualized motion
+	- absolute directory path to where you want the program to save RGB images ("synthetic photos") of the visualized motion
 - **path_output_images_silhouette_masks**
- - absolute directory path to where you want the program to save mask images of the silhouette of the visualized human avatar
+	- absolute directory path to where you want the program to save mask images of the silhouette of the visualized human avatar
 - **path_output_images_segment_masks**
- - absolute directory path to where you want the progrma to save mask images of individual segments of the visualized human avatar
+	- absolute directory path to where you want the progrma to save mask images of individual segments of the visualized human avatar
 
 ##### project_settings
 
@@ -86,24 +87,32 @@ The names of the keys describe their function, but a commented config file is av
 ##### external_data
 
 - **path_textures_skin_male**
- - absolute directory path to where you keep the texture files for male skin textures
+	- absolute directory path to where you keep the texture files for male skin textures
 - **path_textures_skin_female**
- - same as above, but for female skin textures
+	- same as above, but for female skin textures
 - **path_textures_clothing**
- - absolute directory path to where you keep the texture files for clothing textures (sex-agnostic)
+	- absolute directory path to where you keep the texture files for clothing textures (sex-agnostic)
 - **path_human_mesh**
- - absolute directory path to where you keep the 3D skin meshes
+	- absolute directory path to where you keep the 3D skin meshes
 - **path_hdri**
- - absolute directory path to where you keep the HDRI background images
+	- absolute directory path to where you keep the HDRI background images
 
 ##### skeletontracker
 
 - **persistent_musculoskeletal_simulation_data**
- - whether you want the program to re-run the simulation whenever we switch between musculoskeletal models (e.g., as a result of changing the sex or weight of the visualized avatar) or keep previously run simulation data and retrieve it instead of re-running
- - true by default, which will retrieve previously simulated data instead of re-running, if such data is available
-  - this will improve the performance of the program because a single musculoskeletal model is only simulated once
-  - if you have very many different musculoskeletal models in the pipeline, you might want to consider setting this to false, which will make runtime a bit longer but may save memory because the results of all simulations are not stored in memory simultaneously
+	- whether you want the program to re-run the simulation whenever we switch between musculoskeletal models (e.g., as a result of changing the sex or weight of the visualized avatar) or keep previously run simulation data and retrieve it instead of re-running
+	- true by default, which will retrieve previously simulated data instead of re-running, if such data is available
+		- this will improve the performance of the program because a single musculoskeletal model is only simulated once
+		- if you have very many different musculoskeletal models in the pipeline, you might want to consider setting this to false, which will make runtime a bit longer but may save memory because the results of all simulations are not stored in memory simultaneously
 
+##### bounding_box**
+- **step**
+	- how many vertices to skip between each vertex of the skin mesh that is included in finding the bounding box around the skin mesh
+	- set to 1 if you want to iterate through all vertices for maximum accuracy but slowest computation speed
+	- values above 1 may result in bounding boxes that do not fully enclose all parts of the skin mesh, but will speed up the image generation process significantly
+- **padding**
+	- how many pixels of padding are added to all four sides of the 2D bounding box after calculating it
+	- the use of padding is recommended is **step** is greater than 1
 ##### generate
 
 - **first_image_index**
@@ -121,7 +130,7 @@ The names of the keys describe their function, but a commented config file is av
 		- making both false is useful for checking if your custom config values look good without saving anything
 - **iteration_mode**
 	- you can use this key to switch between image generation presets, e.g., to control if you want images only in a specific motion plane
-	- the presets are defined in [Generate.gd](https://github.com/jerela/godosim-project-files) in the [project file repository](https://github.com/jerela/godosim-project-files), where you can also add define your own presets
+	- the presets are defined in [Generate.gd](https://github.com/jerela/godosim-project-files/blob/main/Scripts/Generate.gd) in the [project file repository](https://github.com/jerela/godosim-project-files), where you can also add define your own presets
 - **occlusion**
 	- by default ("none"), there are no external objects occluding the visual avatar in the generated images
 	- there are options to add those by setting the value to "fragmented" or "windows" in case you want to augment the images in the 3D scene with occluding objects that interact with the lighting in the scene
