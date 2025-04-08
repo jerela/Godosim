@@ -20,7 +20,7 @@ Run the program from your command line to get more specific information.
 
 ### When I run the program, I get errors about missing paths.
 
-Make sure the paths in [your configuration file]()(/docs/CONFIGURATION.md) are correct. Additionally, make sure you use forward slashes */* instead of backslashes *\\* as directory separators.
+Make sure the paths in [your configuration file](/docs/CONFIGURATION.md) are correct. Additionally, make sure you use forward slashes */* instead of backslashes *\\* as directory separators.
 
 ### When I run the program, the screen remains black. If any images are generated, they are black or mostly black with some noise. Multiple error messages appear in the console, including something about *VK_SUCCESS*.
 
