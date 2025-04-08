@@ -4,15 +4,13 @@
 
 ### I just want to use the annotated images you generated. How do I do that?
 
-You can download the sample dataset on [Zenodo](MISSING).
+You can download the sample dataset on [Zenodo](MISSING) once it's uploaded (WIP).
 
 ### How do I generate my own images?
 
-See [here](MISSING).
+See "Running the program" in the main readme.
 
-For advanced users, ...
-
-## Running the pre-built binary executable
+## Running the binary executable
 
 ### When I run the program, nothing happens or a black window appears for an extended period of time.
 
@@ -28,8 +26,6 @@ This is because your device does not support the Vulkan renderer of Godot. Try u
 ```
 godosim-windows-x86-64.exe --rendering-method gl_compatibility
 ```
-
-## Building Godot with OpenSim
 
 ## Building and running the binary yourself
 
