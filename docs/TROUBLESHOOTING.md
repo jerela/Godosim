@@ -25,7 +25,9 @@ Make sure the paths in [your configuration file](/docs/CONFIGURATION.md) are cor
 ### When I run the program, the screen remains black. If any images are generated, they are black or mostly black with some noise. Multiple error messages appear in the console, including something about *VK_SUCCESS*.
 
 This is because your device does not support the Vulkan renderer of Godot. Try updating your GPU driver and trying again. If it doesn't help, you can run Godot with a compatibility renderer. To do so, run the program with the argument *--rendering-method gl_compatibility*. For example:
-`godosim-windows-x86-64.exe --rendering-method gl_compatibility`
+```
+godosim-windows-x86-64.exe --rendering-method gl_compatibility
+```
 
 ## Building Godot with OpenSim
 
