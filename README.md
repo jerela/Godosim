@@ -80,8 +80,7 @@ Once the generation procedure is finished, the program will write the output to 
 
 See [here](/docs/TROUBLESHOOTING.md).
 
-
-## Authors
+## Author(s)
 
 Jere Lavikainen, jere.lavikainen (at) uef.fi
 
@@ -89,9 +88,11 @@ Jere Lavikainen, jere.lavikainen (at) uef.fi
 
 The [scripts](/misc/scripts) are licensed under the [MIT license](/misc/scripts/LICENSE).
 
+In the related [project file](https://github.com/jerela/godosim-project-files) and [C++ module](https://github.com/jerela/godosim-cpp-modules) repositories, the software is also subject to the MIT license that is provided in the repositories.
+
 **The MIT license does not apply to the generated image dataset**, which is only available for noncommercial use. Additionally, **the MIT license does not apply to the non-code files included in the Releases**; the Releases contains some files (e.g., 3D meshes) that have a separate license.
 
-We are not affiliated, endorsed, or sponsored by the creators of OpenSim, Godot Engine, SMPL, BEDLAM, or SKEL. This is an independent project that utilizes their existing work, which is subject to their own individual licenses and terms of use.
+We are not affiliated, endorsed, or sponsored by the creators of [OpenSim](https://simtk.org/projects/opensim), [Godot Engine](https://godotengine.org/), [SMPL](https://smpl.is.tue.mpg.de/), [BEDLAM](https://bedlam.is.tue.mpg.de/), or [SKEL](https://skel.is.tue.mpg.de/). This is an independent project that utilizes their existing work, which is subject to their own individual licenses and terms of use.
 
 ## Acknowledgements
 
@@ -99,4 +100,4 @@ A big thanks to the helpful Godot Engine community, particularly [R Hill](https:
 
 ## Publication and citation
 
-TBA
+WIP
