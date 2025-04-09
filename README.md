@@ -87,7 +87,7 @@ Jere Lavikainen, jere.lavikainen (at) uef.fi
 
 ## License and copyright
 
-The scripts and documentation is distributed under the [MIT license](/LICENSE).
+The [scripts](/misc/scripts) are licensed under the [MIT license](/misc/scripts/LICENSE).
 
 **The MIT license does not apply to the generated image dataset**, which is only available for noncommercial use. Additionally, **the MIT license does not apply to the non-code files included in the Releases**; the Releases contains some files (e.g., 3D meshes) that have a separate license.
 
