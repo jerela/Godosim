@@ -92,7 +92,7 @@ In the related [project file](https://github.com/jerela/godosim-project-files) a
 
 **The MIT license does not apply to the generated image dataset**, which is only available for noncommercial use. Additionally, **the MIT license does not apply to the non-code files included in the Releases**; the Releases contains some files (e.g., 3D meshes) that have a separate license.
 
-We are not affiliated, endorsed, or sponsored by the creators of [OpenSim](https://simtk.org/projects/opensim), [Godot Engine](https://godotengine.org/), [SMPL](https://smpl.is.tue.mpg.de/), [BEDLAM](https://bedlam.is.tue.mpg.de/), or [SKEL](https://skel.is.tue.mpg.de/). This is an independent project that utilizes their existing work, which is subject to their own individual licenses and terms of use.
+We are not affiliated with or endorsed by the creators of [OpenSim](https://simtk.org/projects/opensim), [Godot Engine](https://godotengine.org/), [SMPL](https://smpl.is.tue.mpg.de/), [BEDLAM](https://bedlam.is.tue.mpg.de/), or [SKEL](https://skel.is.tue.mpg.de/). This is an independent project that utilizes their existing work, which is subject to their own individual licenses and terms of use.
 
 ## Acknowledgements
 
