@@ -87,9 +87,11 @@ Jere Lavikainen, jere.lavikainen (at) uef.fi
 
 ## License and copyright
 
-The code is distributed under MIT license. Note that the Releases contains some files (3D meshes) that have a separate license.
+The scripts and documentation is distributed under the [MIT license](/LICENSE).
 
-Note that we are not affiliated, endorsed, or sponsored by the creators of OpenSim, Godot Engine, SMPL, BEDLAM, or SKEL. This is an independent project that utilizes their existing work, which is subject to their own individual licenses and terms of use.
+**The MIT license does not apply to the generated image dataset**, which is only available for noncommercial use. Additionally, **the MIT license does not apply to the non-code files included in the Releases**; the Releases contains some files (e.g., 3D meshes) that have a separate license.
+
+We are not affiliated, endorsed, or sponsored by the creators of OpenSim, Godot Engine, SMPL, BEDLAM, or SKEL. This is an independent project that utilizes their existing work, which is subject to their own individual licenses and terms of use.
 
 ## Acknowledgements
 
