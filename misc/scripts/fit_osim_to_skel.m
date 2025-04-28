@@ -125,6 +125,7 @@ for i_morphology = 1:numel(joint_translation_files)
     coordinate_values = dictionary(keys',values);
 
 
+    generalized_coordinates = containers.Map;
     model = Model([model_name '_Godosim_scaled_step_2.osim']);
     coordinate_set = model.updCoordinateSet();
     n_coordinates = coordinate_set.getSize();
@@ -134,8 +135,16 @@ for i_morphology = 1:numel(joint_translation_files)
         name = coordinate.getName();
         value = coordinate_values(name);
         coordinate.set_default_value(value);
+        generalized_coordinates(string(name)) = value;
     end
 
+    cd('C:\Users\JohnDoe\Documents\Godosim-assets\matlab_outputs')
+    generalized_coordinates_json = jsonencode(generalized_coordinates, 'PrettyPrint', true);
+    fid = fopen(['generalized_coordinates_' morphology_name '.json'],'w');
+    fprintf(fid,'%s',generalized_coordinates_json);
+    fclose(fid);
+
+    cd(path_opensim_configs)
     % print the final scaled and posed model
     model.print([model_name '_Godosim_scaled_step_3.osim']);
 
@@ -226,7 +235,7 @@ for i_morphology = 1:numel(bone_scale_files)
     % and similarly, names of child bodies of joints (key) to the names of joints (value)
     body_to_joint = configureDictionary('string','string');
     
-    % for each coordinate in the model, get its name, range, whether it's locked, and default value
+    % for each coordinate in the model, get its name and immediate hierarchy
     for i = 0:n_joints-1
         joint = joint_set.get(i);
         name = string(joint.getName());

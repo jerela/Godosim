@@ -27,7 +27,7 @@ def run(skel_variant):
     # BSM
     #deforming_bones = ['femur_r', 'femur_l', 'tibia_r', 'tibia_l', 'calcn_r', 'calcn_l', 'pelvis', 'lumbar_body', 'thorax', 'head', 'scapula_r', 'scapula_l', 'humerus_r', 'humerus_l', 'radius_r', 'radius_l', 'hand_r', 'hand_l']
     # Hamner-Godosim
-    deforming_bones = ['femur_r', 'femur_l', 'tibia_r', 'tibia_l', 'calcn_r', 'calcn_l', 'pelvis', 'torso', 'humerus_r', 'humerus_l', 'radius_r', 'radius_l', 'ulna_r', 'ulna_l', 'hand_r', 'hand_l']
+    deforming_bones = ['femur_r', 'femur_l', 'tibia_r', 'tibia_l', 'talus_r', 'talus_l', 'calcn_r', 'calcn_l', 'pelvis', 'torso', 'humerus_r', 'humerus_l', 'radius_r', 'radius_l', 'ulna_r', 'ulna_l', 'hand_r', 'hand_l']
 
 
     # open the files for hierarchy and bone endpoints in the global coordinate frame
@@ -44,6 +44,11 @@ def run(skel_variant):
     f = open(r'C:\Users\JohnDoe\Documents\Godosim-assets\matlab_outputs\bone_rotations_' + skel_variant + '.json', 'r')
     # get the json object as a dict 
     bone_rotations = json.load(f)
+    f.close()
+
+    f = open(r'C:\Users\JohnDoe\Documents\Godosim-assets\matlab_outputs\generalized_coordinates_' + skel_variant + '.json', 'r')
+    # get the json object as a dict 
+    generalized_coordinates = json.load(f)
     f.close()
 
 
@@ -108,6 +113,8 @@ def run(skel_variant):
         #rotated_tail = tail_offset
         b.tail = [body_head[0]+tail_final[0], body_head[1]+tail_final[1], body_head[2]+tail_final[2]]
         arm_obj.data.edit_bones[bone_name].use_deform = False
+        arm_obj.data.edit_bones[bone_name].use_inherit_rotation = False
+        arm_obj.data.edit_bones[bone_name].roll = 0
         
         # create the segment bone that is used for attachment to mesh
         segment_bone_name = bone_name + '_segment'
@@ -158,8 +165,7 @@ def run(skel_variant):
                 arm_obj.data.edit_bones[connector_bone_name].use_deform = connecting_bones_can_deform
                 arm_obj.data.edit_bones[bone_name].parent = arm_obj.data.edit_bones[connector_bone_name]
                 arm_obj.data.edit_bones[bone_name].use_connect = True
-            
-
+                
             
     # we must rotate the armature such that OpenSim coordinate system is rotated to match that of Blender
     # first rotate such that the vertical axis is z instead of y
@@ -194,7 +200,6 @@ def run(skel_variant):
     # 3.1: IMPORT AND TRANSLATE THE MESH TO MATCH WITH THE ARMATURE
 
     # import the SKEL skin mesh
-    #skel_file = 'C:/Users/lavik/OneDrive/Documents/GitHub/docker-skel/app/src/SKEL/output/skin_mesh.obj'
     skel_file = 'C:/Users/JohnDoe/Documents/Godosim-assets/skel_outputs/skin_mesh_' + skel_variant + '.obj'
     bpy.ops.wm.obj_import(filepath=skel_file)
 
@@ -306,9 +311,51 @@ def run(skel_variant):
         if g.name.startswith("connector_"):
             vg = skin_mesh.vertex_groups.get(g.name)
             skin_mesh.vertex_groups.remove(vg)
-    # we should also remove the connector bones themselves
-    # WIP ...
+    # we also remove the connector bones themselves
+    bpy.ops.object.mode_set(mode='EDIT')
+    bones_to_remove = []
+    for bone in arm_obj.data.edit_bones:
+        if bone.name.startswith('connector_'):
+            bones_to_remove.append(bone)
+    for bone in bones_to_remove:
+        print("Removing " + bone.name)
+        arm_obj.data.edit_bones.remove(bone)
+        
+    bpy.ops.object.mode_set(mode='OBJECT')
 
+
+
+    # 3.4: ADJUST THE ROLL OF EDITBONES IN UPPER ARMS FOR MORE REALISTIC DEFORMATION
+    bpy.ops.object.mode_set(mode='EDIT')
+
+    for bone_name in bone_names:
+        if bone_name == 'ground':
+            continue
+
+        # this will make the arms, particularly forearms and wrists, deform more realistically by accounting for the axial rotation generalized coordinates in them
+        # the factors in front of the values of the generalized coordinates come from the axial component of the rotation axis of the generalized coordinate            
+        if bone_name == 'radius_r' or bone_name == 'hand_r':
+            roll = 0.99840646*generalized_coordinates['pro_sup_r']
+            arm_obj.data.edit_bones[bone_name].roll += roll
+            print(bone_name + ' pronation-supination correction: ' + str(math.degrees(roll)))
+        if bone_name == 'radius_l' or bone_name == 'hand_l':
+            roll = -0.99840646*generalized_coordinates['pro_sup_l']
+            arm_obj.data.edit_bones[bone_name].roll += roll
+            print(bone_name + ' pronation-supination correction: ' + str(math.degrees(roll)))
+        if bone_name == 'radius_r' or bone_name == 'hand_r' or bone_name == 'humerus_r':
+            roll = 1.0*generalized_coordinates['arm_rot_r']
+            arm_obj.data.edit_bones[bone_name].roll += roll
+            print(bone_name + ' arm rotation correction: ' + str(math.degrees(roll)))
+        if bone_name == 'radius_l' or bone_name == 'hand_l' or bone_name == 'humerus_l':
+            roll = -1.0*generalized_coordinates['arm_rot_l']
+            arm_obj.data.edit_bones[bone_name].roll += roll
+            print(bone_name + ' arm rotation correction: ' + str(math.degrees(roll)))
+        #mat_elems = bone_rotations[bone_name]
+        #seq = (mat_elems[0:3], mat_elems[3:6], mat_elems[6:9])
+        #mat = mathutils.Matrix(seq)
+        #axis_angle = mat.to_quaternion().to_axis_angle()
+        #print(bone_name + ' axang would be: ' + str(math.degrees(axis_angle[1])))
+    bpy.ops.object.mode_set(mode='OBJECT')
 
 
     # 4: PREPARE UV MAPS TO TEXTURES CAN BE PROJECTED ON THE MESH
@@ -316,7 +363,7 @@ def run(skel_variant):
     # TRANSFER UV MAPS FROM SMPL TO SKEL
 
     # import the SMPL mesh with a UV map
-    smpl_file = 'C:/Users/lavik/OneDrive/Documents/Godosim-assets/smpl-uv/smpl_uv.obj'
+    smpl_file = 'C:/Users/JohnDoe/Documents/Godosim-assets/smpl-uv/smpl_uv.obj'
     bpy.ops.wm.obj_import(filepath=smpl_file)
     smpl_mesh = bpy.data.objects['smpl_uv']
     # transfer the UV map to skin mesh
@@ -343,8 +390,7 @@ def run(skel_variant):
     # 5: SAVE OUTPUT MODELS
 
     # save file
-    #glb_out_file = 'C:/Users/lavik/OneDrive/Documents/Godosim assets/Blender/default_human.glb'
-    glb_out_file = 'C:/Users/JohnDoe/Documents/Godosim-assets/Blender/human_' + skel_variant + '.glb'
+    glb_out_file = 'C:/Users/JohnDoe/Documents/Godosim-importables/SMPL_Hamner/human_' + skel_variant + '.glb'
     bpy.ops.export_scene.gltf(filepath=glb_out_file, export_materials='PLACEHOLDER')
     
     
@@ -357,8 +403,7 @@ def clear_data():
     bpy.ops.outliner.orphans_purge()
 
 
-
-body_morphologies = ['female_zero', 'female_plus2', 'female_minus2', 'male_zero', 'male_plus2', 'male_minus2']
+body_morphologies = ['female_zero', 'female_plus1', 'female_plus2', 'female_minus1', 'female_minus2', 'male_zero', 'male_plus1', 'male_plus2', 'male_minus1', 'male_minus2']
 for body in body_morphologies:
     clear_data()
     run(body)
