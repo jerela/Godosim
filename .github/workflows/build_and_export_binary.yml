@@ -103,11 +103,10 @@ jobs:
         cmake --install .
         cd ~/opensim-core/bin && echo -e "yes" | ./opensim-install-command-line.sh
     
-    # download submodules; note that PAT is no longer required after the submodules go public, and expires in 90 days from its creation
+    # download submodules
     - uses: actions/checkout@v4
       with:
         submodules: recursive
-        token: ${{ SECRETS.PAT_submodules }}
 
     - name: Install SCons and other Godot build/export dependencies
       run: sudo apt-get install --yes build-essential scons pkg-config libx11-dev libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu1-mesa-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev libwayland-dev
