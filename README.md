@@ -1,5 +1,7 @@
 # Godosim
-Godot Engine integrating OpenSim musculoskeletal modeling software for generating synthetic images of human kinematics 
+[![Build OpenSim and Godot](https://github.com/jerela/Godosim/actions/workflows/build_and_export_binary.yml/badge.svg)](https://github.com/jerela/Godosim/actions/workflows/build_and_export_binary.yml)
+
+Godot Engine integrating OpenSim musculoskeletal modeling software for generating synthetic images of human kinematics
 
 This is the main repository of the Godosim project, which enables the generation of synthetic images of human motion with automatic annotations of anatomical landmarks from OpenSim-compatible musculoskeletal models.
 
