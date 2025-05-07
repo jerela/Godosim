@@ -5,6 +5,8 @@
 [submodule "submodules/godosim-project-files"]
 	path = submodules/godosim-project-files
 	url = https://github.com/jerela/godosim-project-files
+	branch = main
 [submodule "submodules/godosim-cpp-modules"]
 	path = submodules/godosim-cpp-modules
 	url = https://github.com/jerela/godosim-cpp-modules
+	branch = main
