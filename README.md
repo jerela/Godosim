@@ -7,7 +7,7 @@ This is the main repository of the Godosim project, which enables the generation
 
 <details>
 <summary>Click to enable GIF of program at work (warning: flashing lights)</summary>
-<img src="https://github.com/jerela/Godosim/blob/docs/docs/img/generation_process.gif">
+<img src="https://github.com/jerela/Godosim/blob/main/docs/img/generation_process.gif">
 </details>
 
 ## Table of contents
