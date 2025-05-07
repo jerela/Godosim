@@ -30,7 +30,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 The prerequisites depend on what you want to use Godosim for. We offer access in three levels of increasing complexity:
 1. If you simply wish to access the sample dataset of annotated images generated with Godosim, ~~you can find it on [Zenodo](MISSING)~~ you will have to wait until it's uploaded.
-2. If you wish to use the pre-built binary applications and generate your own annotated images while customizing the pipeline from the configuration file, you can follow the instructions on [setting up Godosim](#setting-up).
+2. If you wish to use the pre-built binary applications (Windows only) and generate your own annotated images while customizing the pipeline from the configuration file, you can follow the instructions on [setting up Godosim](#setting-up).
 3. **ADVANCED USERS**: If you're a right proper wizard and wish to build your own customized Godosim application, you will need the following in addition to the prerequisites of step 2:
    - [Godot Engine 4.3](https://github.com/godotengine/godot/tree/4.3) (included in submodules)
    - [Custom Godosim C++ module](https://github.com/jerela/godosim-cpp-modules) (included in submodules)
@@ -45,7 +45,7 @@ Step by step instructions on how to install and set up this project and its depe
 
 1. Install [OpenSim 4.5](https://simtk.org/frs/?group_id=91)
 	- You will need to register to SimTK for free to be able to download OpenSim.
-1. Download the Godosim binary executable from [Releases](https://github.com/jerela/Godosim/releases/tag/v1.0.0)
+1. Download the Godosim binary executable for Windows from [Releases](https://github.com/jerela/Godosim/releases/tag/v1.0.0)
 3. The executable uses the shared libraries of OpenSim. You need to tell the operating system where to find them.
 	- Find the **bin** directory in your OpenSim installation root directory, and add it to the PATH environmental variable.
 4. Next, you need to download assets that Godosim uses.
