@@ -106,6 +106,12 @@ The names of the keys describe their function, but a commented config file is av
 		- if you have very many different musculoskeletal models in the pipeline, you might want to consider setting this to false, which will make runtime a bit longer but may save memory because the results of all simulations are not stored in memory simultaneously
 
 ##### bounding_box
+- **vertices**
+	- indices of the vertices of the skin mesh
+	- if specified, the 3D bounding box will only be generated while considering the vertices at these indices, which may speed up bounding box generation if the number of vertices is limited
+	- if specified, **step** will be ignored
+	- for example, `vertices=[416, 470, 334, 3347, 504, 4358, 2668, 6464, 2993, 6791, 2938, 6732, 5574, 5682, 5585, 5616, 1764, 1799, 1777, 1807, 5811, 2013, 4558, 707, 3207, 7001, 3881, 3415, 1540, 959, 7160, 5365, 4805, 4947, 1124, 4956, 4964, 1100, 4970, 1110, 1116, 3804, 3686, 7518, 7401, 7469, 7549, 3757, 3836, 3543, 3674, 3699, 7259, 7424, 7411, 7435, 3721]` should provide an accurate bounding box for the SMPL mesh
+	- note that these indices are indices of the mesh once it's imported to Godot Engine, which may affect vertex count, and they do not necessarily match the indices of the SMPL mesh
 - **step**
 	- how many vertices to skip between each vertex of the skin mesh that is included in finding the bounding box around the skin mesh
 	- set to 1 if you want to iterate through all vertices for maximum accuracy but slowest computation speed
