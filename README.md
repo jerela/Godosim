@@ -65,7 +65,7 @@ Step by step instructions on how to install and set up this project and its depe
 	5. Download some HDRI backgrounds from [Poly Haven](https://polyhaven.com/hdris).
  		- In the sample dataset, we used 4K resolution.
 		- Make a folder to put them in.
-	- **In steps i–v, you can put the folders containing the files where you want because you will use a configuration file to tell the program their directory paths** (see **step 5**). For an example directory structure, see [here](/misc/other/example_asset_tree.txt).
+	- **In steps i–v, you can put the folders containing the files where you want because you will use a configuration file to tell the program their directory paths** (see **step 5**). For an example directory structure, see [here](/misc/other/example_asset_directory_tree.txt).
 5. Now you need to configure your **config.cfg** file. When you run Godosim for the first time, it creates one for you. Alternatively, you can download it [here](/misc/other/config.cfg).
 	- You need to define where you keep the skin meshes, scaled MSK models, motion file, clothing and skin textures, and HDRI backgrounds.
  		- See [here](/docs/CONFIGURATION.md#descriptions-of-sections-and-keys) for instructions on filling the path values.
