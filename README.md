@@ -45,15 +45,17 @@ Step by step instructions on how to install and set up this project and its depe
 
 1. Install [OpenSim 4.5](https://simtk.org/frs/?group_id=91)
 	- You will need to register to SimTK for free to be able to download OpenSim.
-1. Download the Godosim binary executable for Windows from [Releases](https://github.com/jerela/Godosim/releases/tag/v1.0.0)
+2. Download the Godosim binary executable for Windows from [Releases](https://github.com/jerela/Godosim/releases/tag/v1.0.0). It is `Godosim_assets/Binaries/godosim-windows-x86-64.exe` in `Godosim_assets.zip`.
 3. The executable uses the shared libraries of OpenSim. You need to tell the operating system where to find them.
 	- Find the **bin** directory in your OpenSim installation root directory, and add it to the PATH environmental variable.
 4. Next, you need to download assets that Godosim uses.
-	1. Download skin meshes from [Releases](https://github.com/jerela/Godosim/releases/tag/v1.0.0).
+	1. Get skin meshes from [Releases](https://github.com/jerela/Godosim/releases/tag/v1.0.0) (which you downloaded in **step 2** to get the Godosim binary executable). They are in the `Godosim_assets/Meshes` folder in `Godosim_assets.zip`.
 		- These are [SMPL](https://smpl.is.tue.mpg.de/) meshes generated with [SKEL](https://skel.is.tue.mpg.de/).
-	2. Download scaled MSK models corresponding to the skin meshes from [Releases](https://github.com/jerela/Godosim/releases/tag/v1.0.0).
-	3. Download a pre-calculated motion file that is compatible with the scaled MSK models from [SimTK](https://simtk.org/frs/?group_id=516).
-		- You need to download the first package, **Simulation of Human Running**. From the archive, you need to find the file **RunningSimulation_simTK/IK/subject02_running.trc** and extract it.
+	2. Get scaled MSK models corresponding to the skin meshes from [Releases](https://github.com/jerela/Godosim/releases/tag/v1.0.0). They are in the `Godosim_assets/MSK_models` folder in `Godosim_assets.zip`.
+		- These are based on the Hamner MSK model from [SimTK](https://simtk.org/frs/?group_id=516).
+	3. Get kinematics files that are compatible with the MSK models from [Releases](https://github.com/jerela/Godosim/releases/tag/v1.0.0). They are in the `Godosim_assets/Kinematics` folder in `Godosim_assets.zip`.
+		- You can also download compatible kinematics of running from the Hamner MSK model's SimTK project page.
+		- If you want to use your own kinematics, you should use OpenSim to calculate them using the Hamner MSK model.
  	4. Download skin and clothing textures for the skin meshes from the [BEDLAM project page](https://bedlam.is.tue.mpg.de/).
 		- You will need to register for free and accept the license terms to be able to download the files.
 		- The files you need are **body textures** (1.8 GB) and **clothing overlay textures** (5.3 GB). You do not need the other BEDLAM files.
@@ -63,6 +65,7 @@ Step by step instructions on how to install and set up this project and its depe
 	5. Download some HDRI backgrounds from [Poly Haven](https://polyhaven.com/hdris).
  		- In the sample dataset, we used 4K resolution.
 		- Make a folder to put them in.
+	- **In steps i–v, you can put the folders containing the files where you want because you will use a configuration file to tell the program their directory paths** (see **step 5**). For an example directory structure, see [here](/misc/other/example_asset_tree.txt).
 5. Now you need to configure your **config.cfg** file. When you run Godosim for the first time, it creates one for you. Alternatively, you can download it [here](/misc/other/config.cfg).
 	- You need to define where you keep the skin meshes, scaled MSK models, motion file, clothing and skin textures, and HDRI backgrounds.
  		- See [here](/docs/CONFIGURATION.md#descriptions-of-sections-and-keys) for instructions on filling the path values.
