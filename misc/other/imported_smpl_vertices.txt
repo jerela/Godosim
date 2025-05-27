@@ -1,0 +1,68 @@
+These are the indices of select vertices of the SMPL mesh once it's been imported to Godot Engine. They do not necessarily match the indices of the SMPL mesh when examined in other software.
+You can use these to decide which vertices are included in generating bounding boxes for SMPL meshes, unless you use the standard method. See the instructions for the config file for more information.
+
+head superior			416
+head posterior			470
+nose tip			334
+chin tip			3347
+left ear			504
+right ear			4358
+
+left middle finger tip		2668
+left thumb tip			2993
+left pinky tip			2938
+right middle finger tip		6464
+right thumb tip			6791
+right pinky tip			6732
+
+left elbow posterior		1764
+left elbow anterior		1799
+left elbow superior		1777
+left elbow inferior		1807
+right elbow posterior		5574
+right elbow anterior		5682
+right elbow superior		5585
+right elbow inferior		5616
+
+left shoulder superior		2013
+left chest anterior		707
+left scapula posterior		3207
+right shoulder superior		5811
+right chest anterior		4558
+right scapula posterior		7001
+stomach tip			3881
+
+left hip posterior		3415
+left hip lateral		1540
+left hip anterior		959
+right hip posterior		7160
+right hip lateral		5365
+right hip anterior		4805
+
+left knee front			1100
+left knee back			4970
+left knee lateral		1110
+left knee medial		1116
+right knee front		4947
+right knee back			1124
+right knee lateral		4956
+right knee medial		4964
+
+left ankle medial		3804
+left ankle lateral		3686
+right ankle medial		7518
+right ankle lateral		7401
+
+left heel			3757
+left heel inferior		3836
+left big toe tip		3543
+left foot lateral		3674
+left foot medial		3699
+left metatarsal inferior	3721
+right heel			7469
+right heel inferior		7549
+right big toe tip		7259
+right foot lateral		7424
+right foot medial		7411
+right metatarsal inferior	7435
+

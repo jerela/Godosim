@@ -111,6 +111,7 @@ The names of the keys describe their function, but a commented config file is av
 	- if specified, the 3D bounding box will only be generated while considering the vertices at these indices, which may speed up bounding box generation if the number of vertices is limited
 	- if specified, **step** will be ignored
 	- for example, `vertices=[416, 470, 334, 3347, 504, 4358, 2668, 6464, 2993, 6791, 2938, 6732, 5574, 5682, 5585, 5616, 1764, 1799, 1777, 1807, 5811, 2013, 4558, 707, 3207, 7001, 3881, 3415, 1540, 959, 7160, 5365, 4805, 4947, 1124, 4956, 4964, 1100, 4970, 1110, 1116, 3804, 3686, 7518, 7401, 7469, 7549, 3757, 3836, 3543, 3674, 3699, 7259, 7424, 7411, 7435, 3721]` should provide an accurate bounding box for the SMPL mesh
+		- See [here](/misc/other/imported_smpl_vertices.txt) for information about the locations that these indices represent.
 	- note that these indices are indices of the mesh once it's imported to Godot Engine, which may affect vertex count, and they do not necessarily match the indices of the SMPL mesh
 - **step**
 	- how many vertices to skip between each vertex of the skin mesh that is included in finding the bounding box around the skin mesh
