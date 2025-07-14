@@ -1,0 +1,46 @@
+Godosim_importables
+├───Clothing_textures
+│       rp_aaron_posed_002_texture_01.png
+│	.
+│	.
+│	.
+│       rp_jessica_posed_009_texture_18.png
+│
+├───HDRI_backgrounds
+│       abandoned_slipway_4k.exr
+│       .
+│	.
+│	.
+│       winter_lake_01_4k.exr
+│
+├───Kinematics
+│       randomized_kinematics.mot
+│	real_kinematics.mot
+│
+├───Meshes
+│       human_female_minus1.glb
+│	.
+│	.
+│	.
+│       human_male_zero.glb
+│
+├───MSK_models
+│       Godosim_Hamner_female_minus1.osim
+│	.
+│	.
+│	.
+│       Godosim_Hamner_male_zero.osim
+│
+├───Skin_textures_female
+│       skin_f_african_01_ALB.png
+│	.
+│	.
+│	.
+│       skin_f_white_07_ALB.png
+│
+└───Skin_textures_male
+        skin_m_african_01_ALB.png
+	.
+	.
+	.
+        skin_m_white_07_ALB.png
