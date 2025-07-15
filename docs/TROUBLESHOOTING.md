@@ -4,7 +4,7 @@
 
 ### I just want to use the annotated images you generated. How do I do that?
 
-You can download the sample dataset on [Zenodo](MISSING) once it's uploaded (WIP).
+You can download the sample dataset on [Zenodo](https://doi.org/10.5281/zenodo.15525580).
 
 ### How do I generate my own images?
 

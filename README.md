@@ -1,6 +1,8 @@
 # Godosim
 [![Build OpenSim and Godot](https://github.com/jerela/Godosim/actions/workflows/build_and_export_binary.yml/badge.svg)](https://github.com/jerela/Godosim/actions/workflows/build_and_export_binary.yml)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15525581.svg)](https://doi.org/10.5281/zenodo.15525581)
+
 Godot Engine integrating OpenSim musculoskeletal modeling software for generating synthetic images of human kinematics
 
 This is the main repository of the Godosim project, which enables the generation of synthetic images of human motion with automatic annotations of anatomical landmarks from OpenSim-compatible musculoskeletal models.
@@ -29,14 +31,14 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 The prerequisites depend on what you want to use Godosim for. We offer access in three levels of increasing complexity:
-1. If you simply wish to access the sample dataset of annotated images generated with Godosim, ~~you can find it on [Zenodo](MISSING)~~ you will have to wait until it's uploaded.
+1. If you simply wish to access the sample dataset of annotated images generated with Godosim, you can find it on [Zenodo](https://doi.org/10.5281/zenodo.15525580).
 2. If you wish to use the pre-built binary applications (Windows only) and generate your own annotated images while customizing the pipeline from the configuration file, you can follow the instructions on [setting up Godosim](#setting-up).
 3. **ADVANCED USERS**: If you're a right proper wizard and wish to build your own customized Godosim application, you will need the following in addition to the prerequisites of step 2:
    - [Godot Engine 4.3](https://github.com/godotengine/godot/tree/4.3) (included in submodules)
    - [Custom Godosim C++ module](https://github.com/jerela/godosim-cpp-modules) (included in submodules)
    - [Godosim project files for Godot Engine](https://github.com/jerela/godosim-project-files) (included in submodules)
    - [SCons](https://scons.org/) to build Godot with custom modules. For Godot-specific use instructions, see [the official documentation](https://docs.godotengine.org/en/stable/contributing/development/compiling/introduction_to_the_buildsystem.html).
-   - See the instructions on [building Godot Engine](/docs/BUILDING.md) and [customizing Godosim](/docs/CUSTOMIZING.md) or check the [GitHub Actions workflow file](missing) in this repository.
+   - See the instructions on [building Godot Engine](/docs/BUILDING.md) and [customizing Godosim](/docs/CUSTOMIZING.md) or check the [GitHub Actions workflow file](/.github/workflows/build_and_export_binary.yml) in this repository.
 
 
 ### Setting up
