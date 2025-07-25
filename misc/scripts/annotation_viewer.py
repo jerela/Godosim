@@ -129,7 +129,7 @@ def parse_arguments():
     argument_list = sys.argv[1:]
     # b for bodies, j for joints, m for markers, p for path
     opts_short = "bjmp:"
-    opts_long = ["bodies", "joints", "markers", "path"]
+    opts_long = ["bodies", "joints", "markers", "path="]
     
     try:
         # parse arguments and values
